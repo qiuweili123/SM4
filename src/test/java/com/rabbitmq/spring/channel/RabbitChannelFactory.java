@@ -68,12 +68,12 @@ public class RabbitChannelFactory implements DisposableBean, ShutdownListener {
                 Channel channel = channelReference.get();
                 if (channel != null && channel.isOpen()) {
                     if (channel.getConnection().isOpen()) {
-                        channel.close(closeCode, closeMessage);
+                        //channel.close(closeCode, closeMessage);
                     }
                 }
             } catch (NullPointerException e) {
                 log.error("Error closing channel", e);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 log.error("Error closing channel", e);
             }
         }
