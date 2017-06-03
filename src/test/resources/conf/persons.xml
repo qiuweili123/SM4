@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persons>
+    <person>
+        <name>java小强</name>
+        <sex>man</sex>
+        <age>30</age>
+    </person>
+    <person>
+        <name>崔素强</name>
+        <sex>man</sex>
+        <age>26</age>
+    </person>
+</persons>

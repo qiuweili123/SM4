@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://blog.csdn.net/lu8000/article/details/25754415 -->
+<!-- status属性，这个属性表示log4j2本身的日志信息打印级别 ,如果把status改为TRACE再执行测试代码，可以看到控制台中打印了一些log4j加载插件、组装logger等调试信息 -->
+<Configuration status="off" xmlns="http://logging.apache.org/log4j/2.0/config">
+    <!-- synAppender and kafka -->
+    <properties>
+        <property name="logPath">log</property>
+        <property name="appName">${sys:application.name}</property>
+        <property name="patternLayout">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c{1}:%L - %msg||%ex{1}||%X{clientNumber}%n
+        </property>
+        <!--设置文件大小每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <SizeBasedTriggeringPolicy size="100 MB"/>
+    </properties>
+
+    <Appenders>
+
+        <!-- Console，这些节点可不是随便命名的,Console就是输出控制台的,这里设置了PatternLayout就是输出格式了 -->
+        <Console name="Console" target="SYSTEM_OUT">
+
+            <!-- PatternLayout
+            1、logger{36}限制logger名字最长36个字符
+             -->
+            <PatternLayout pattern="${patternLayout}"/>
+        </Console>
+
+        <!--文件会打印出所有信息，append="false"这个log每次运行程序会自动清空，由append属性决定，这个也挺有用的，适合临时测试用 -->
+        <!-- <File name="LogFile" filename="${sys:catalina.home}/logs/${appName}.log"
+            append="false"> <PatternLayout pattern="%d{YYYY-MM-dd HH:mm:ss} [%t] %-5p
+            %c{1}:%L - %msg%n" /> </File> -->
+        <RollingFile name="RollingFile_Warn" filename="${logPath}/${appName}_warn.log"
+                     filepattern="${logPath}/${appName}.warn.log.%d{yyyyMMdd}.log">
+            <PatternLayout pattern="${patternLayout}"/>
+            <Policies>
+                <!-- 按天进行日志汇总 -->
+                <timeBasedTriggeringPolicy/>
+                <!-- <SizeBasedTriggeringPolicy size="100 MB" /> -->
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+            <!-- 如果有多个ThresholdFilter，那么Filters是必须的，同时在Filters中，首先要过滤不符合的日志级别，把不需要的首先DENY掉，然后再ACCEPT需要的日志级别，
+                这个次序不能搞颠倒。 -->
+            <Filters>
+                <!-- 输出日志级别为 warn 的日志 -->
+                <!-- <LevelRangeFilter minLevel="WARN" maxLevel="WARN" onMatch="ACCEPT"
+                    onMismatch="DENY"/> 或者 -->
+                <ThresholdFilter level="ERROR" onMatch="DENY"
+                                 onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="WARN" onMatch="ACCEPT"
+                                 onMismatch="DENY"/>
+
+            </Filters>
+        </RollingFile>
+
+        <RollingFile name="RollingFile_Error" filename="${logPath}/${appName}_error.log"
+                     filepattern="${logPath}/%d{yyyyMMddHHmmss}-${appName}-Async.log">
+            <PatternLayout pattern="${patternLayout}"/>
+            <!-- 	<JSONLayout/> -->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+            <Filters>
+                <!-- 输出日志级别为 error 的日志 -->
+                <ThresholdFilter level="error" onMatch="ACCEPT"
+                                 onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+        <RollingFile name="RollingFile_Info" filename="${logPath}/${appName}_info.log"
+                     filepattern="${logPath}/%d{yyyyMMddHHmmss}-${appName}-info.log">
+            <PatternLayout pattern="${patternLayout}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+            <!-- log4j2的过滤器也将返回三类状态：Accept（接受）, Deny（拒绝） 或Neutral（中立）。
+    其中，Accept意味着不用再调用其他过滤器了，这个LogEvent将被执行；
+    Deny意味着马上忽略这个event，并将此event的控制权交还给过滤器的调用者；
+    Neutral则意味着这个event应该传递给别的过滤器，如果再没有别的过滤器可以传递了，那么就由现在这个过滤器来处理。 -->
+
+
+            <!-- 大于warn以上级别日志都被拒绝 -->
+            <!-- 	<LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT"
+                        onMismatch="DENY"/> -->
+            <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+
+        </RollingFile>
+        <Kafka name="KAFKA_ERROR" topic="leerr">
+            <filters>
+                <thresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </filters>
+            <!-- 	<patternLayout charset="UTF-8"
+                    pattern="%date{yyyy-MM-dd HH:mm:ss}||%-5level||%logger||test">
+                </patternLayout>  -->
+            <Property name="producer.size">5</Property>
+            <Property name="acks">0</Property>
+            <Property name="bootstrap.servers">10.150.170.103:9092</Property>
+
+            <!-- <Property name="block.on.buffer.full">true</Property>
+            <Property name="linger.ms">100</Property> -->
+            <!--  <Property name="batch.size">163840</Property>   -->
+            <!--   <Property name="send.buffer.bytes">1310720</Property> -->
+
+
+        </Kafka>
+
+        <Async name="Async_KAFKA_ERROR">
+            <AppenderRef ref="KAFKA_ERROR"/>
+        </Async>
+    </Appenders>
+
+
+    <Loggers>
+        <!-- pattern layout actually uses location ==ture, so we need to include
+            it -->
+        <!-- <AsyncLogger name="com.log4j.test.Log4jTest" level="warn" includeLocation="false"
+            additivity="false" > <AppenderRef ref="RollingFile_Warn"/> <AppenderRef ref="RollingFile_Error"/>
+            <AppenderRef ref="RollingFile_Info"/> </AsyncLogger > -->
+        <!-- 如果要加上位置信息比如哪个类，第几行，需要设置 includeLocation="true" -->
+        <!-- additivity="false"表示在该logger中输出的日志不会再延伸到父层logger。这里如果改为true，则会延伸到Root Logger，遵循Root Logger的配置也输出一次 -->
+        <Logger name="com.httpCall.test" level="info" includeLocation="true" additivity="false">
+            <AppenderRef ref="RollingFile_Info"/>
+            <!-- <AppenderRef ref="Async_KAFKA_ERROR" />
+                <AppenderRef ref="KAFKA_ERROR" />-->
+        </Logger>
+        <Logger name="com.mysql.test" level="info" includeLocation="true" additivity="false">
+            <AppenderRef ref="RollingFile_Info"/>
+            <!-- <AppenderRef ref="Async_KAFKA_ERROR" />
+                <AppenderRef ref="KAFKA_ERROR" />-->
+        </Logger>
+        <Logger name="com.log4j2.test" level="info" includeLocation="true" additivity="false">
+            <AppenderRef ref="RollingFile_Info"/>
+            <AppenderRef ref="RollingFile_Error"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="info" includeLocation="true">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

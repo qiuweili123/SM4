@@ -1,0 +1,48 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:component-scan base-package="com.sh.taskExecutor"/>
+
+    <!--  <task:executor id="taskExecutor"  pool-size="2-10"  queue-capacity="10"/> -->
+
+    <!-- 异步线程池 -->
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <!-- 核心线程数    corePoolSize：线程池至少有2个线程是启动的，即使是空闲的也不会关闭 -->
+        <property name="corePoolSize" value="4"/>
+        <!-- 最大的线程数目，当corePoolSize繁忙时，会创建线程，启动的总的线程数不能大于maxPoolSize -->
+        <property name="maxPoolSize" value="35"/>
+        <!-- 当corePoolSize没有空闲线程的时候，允许queueCapacity个线程任务等待,queueCapacity队列满时!才会在corePoolSize的基础上,maxPoolSize之内进行新的线程的创建!  -->
+        <property name="queueCapacity" value="10"/>
+        <!-- 线程池维护线程所允许的空闲时间,单位毫秒，超过这个时间后会将大于corePoolSize的线程关闭 -->
+        <property name="keepAliveSeconds" value="300"/>
+        <!-- 线程池对拒绝任务(无线程可用)的处理策略 -->
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"/>
+        </property>
+    </bean>
+    <!-- 配置异步方法注解扫描 -->
+    <task:annotation-driven/>
+    <!-- 启用定时器  -->
+    <bean id="springScheduleExecutorTask" class="org.springframework.scheduling.concurrent.ScheduledExecutorTask">
+        <property name="runnable" ref="taskExecutor"/>
+        <!--容器加载10秒后开始执行  -->
+        <property name="delay" value="1000"/>
+        <!--  每次任务间隔 5秒  -->
+        <property name="period" value="5000"/>
+    </bean>
+
+    <bean id="springScheduledExecutorFactoryBean"
+          class="org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean">
+        <property name="scheduledExecutorTasks">
+            <list>
+                <ref bean="springScheduleExecutorTask"/>
+            </list>
+        </property>
+    </bean>
+</beans>

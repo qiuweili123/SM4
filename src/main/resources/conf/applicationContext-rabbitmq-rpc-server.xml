@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+    <context:property-placeholder location="classpath:conf/rabbbitMq.properties"/>
+
+    <bean id="rabbitConnectionFactory" class="com.rabbitmq.spring.connection.RabbitConnectionFactory">
+        <property name="connectionFactory">
+            <bean class="com.rabbitmq.client.ConnectionFactory">
+                <property name="username" value="${rabbit.username}"/>
+                <property name="password" value="${rabbit.password}"/>
+                <property name="virtualHost" value="${rabbit.virtualHost}"/>
+            </bean>
+        </property>
+        <property name="hosts" value="${rabbit.hosts}"/>
+    </bean>
+    <bean id="rabbitChannelFactory" class="com.rabbitmq.spring.channel.RabbitChannelFactory">
+        <property name="connectionFactory" ref="rabbitConnectionFactory"/>
+    </bean>
+
+    <bean id="testServiceImpl" class="cn.slimsmart.rabbitmq.spring.rabbitmq.demo.rpc.TestServiceImpl"/>
+
+    <bean id="testServiceExport" class="com.rabbitmq.spring.remoting.RabbitInvokerServiceExporter">
+        <property name="channelFactory" ref="rabbitChannelFactory"/>
+        <property name="serviceInterface" value="cn.slimsmart.rabbitmq.spring.rabbitmq.demo.rpc.TestService"/>
+        <property name="service" ref="testServiceImpl"/>
+        <property name="exchange" value="${rabbit.exchange}"/>
+        <!-- 必须大写  -->
+        <property name="exchangeType" value="TOPIC"/>
+        <property name="routingKey" value="${rabbit.routingKey}"/>
+        <property name="queueName" value="${rabbit.queue}"/>
+        <property name="poolsize" value="5"/>
+    </bean>
+
+</beans>

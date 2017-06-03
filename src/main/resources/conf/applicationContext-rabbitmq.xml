@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.4.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- queue litener 观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象 -->
+    <!-- 	<context:component-scan base-package="com.sh.listener"/>
+    <rabbit:annotation-driven/>-->
+    <!-- 创建connectionFactory
+      <bean id="connectionFactory"
+        class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+          <constructor-arg name="hostname" value="${rabbit.hosts}"/>
+
+          <property name="username" value="${rabbit.username}"/>
+          <property name="password" value="${rabbit.password}"/>
+          <property name="virtualHost" value="${rabbit.virtualHost}"/>
+          <property name="channelCacheSize" value="${rabbit.channelCacheSize}"/>
+      </bean>
+       -->
+    <!-- 创建rabbitAdmin 代理类
+  <bean id="rabbitAdmin"
+      class="org.springframework.amqp.rabbit.core.RabbitAdmin">
+      <constructor-arg ref="rabbitConnectionFactory" />
+  </bean>   -->
+
+    <!-- 创建rabbitTemplate 消息模板类 
+     
+    <bean id="rabbitTemplate"  
+        class="org.springframework.amqp.rabbit.core.RabbitTemplate">  
+        <constructor-arg ref="rabbitConnectionFactory"></constructor-arg>  
+        <property name="routingKey" value="${rabbit.routingKey}"></property>  
+    </bean>  -->
+    <context:property-placeholder location="classpath:conf/rabbbitSpringMq.properties"/>
+
+    <!-- 连接服务配置-->
+    <!-- addresses：如果addresses有多个配置,addresses="${rabbit.host1,rabbit.host2}",spring完美支持在多个主机之间进行failover（故障转移），注意如果使用了addresses，不能再使用host和port端口方式 -->
+    <!-- virtual-host:虚拟主机，主要是用于控制交换器、路由等权限的管理 -->
+    <!-- channel-cache-size:用于缓存客户端产生的channel(通道)的连接数量, 每个channel代表一个会话任务-->
+    <!-- publisher-confirms:发布确认消息确认-->
+    <rabbit:connection-factory id="connectionFactory" addresses="${rabbit.hosts}" virtual-host="${rabbit.virtualHost}"
+                               username="${rabbit.username}"
+                               password="${rabbit.password}" channel-cache-size="${rabbit.channelCacheSize}"
+                               connection-timeout="${rabbit.connectionTimeout}" publisher-confirms="true"
+                               executor="threadPoolTaskExecutor"/>
+
+
+    <!--      <bean id="connectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory" p:username="erpmq" p:password="erpmq" p:port="5672" >
+            <constructor-arg value="${rabbit.hosts}" />
+        </bean> -->
+
+    <!-- 创建rabbitAdmin 代理类,主要是用于控制交换器、路由等权限的管理 -->
+    <rabbit:admin connection-factory="connectionFactory" id="erpAdmin"/>
+
+    <!-- queue 队列声明 -->
+    <!-- declared-by:声明由哪个代理类进行管理 -->
+    <!-- durable:队列是否可持久化 -->
+    <!-- auto-delete:自动删除，如果该队列没有任何订阅的消费者的话，该队列会被自动删除。这种队列适用于临时队列-->
+    <!-- exclusive:声明此队列是否为排他队列，如果一个队列被声明为排他队列，该队列仅对首次声明它的连接可见，不接受其它客户端的连接，并在连接断开时自动删除。这种队列适用于只限于一个客户端发送读取消息的应用场景 -->
+    <!--注意 ：如果想要发布持久化的消息，必须满足3个条件
+        1、将消息发布模式（发送消息的时候properties属性的设置）Delivery Mode（投递模式）设置成2.(spring-rabbit中的 MessageProperties默认的配置是持久化,也可以重写messageprocesscer）
+        2、将消息发布到一个持久化的exchange； 
+        3、消息最终保存到一个持久化的queue。   -->
+    <rabbit:queue id="queue_one" durable="true" auto-delete="false" exclusive="false" name="queue_one"
+                  declared-by="erpAdmin"/>
+
+    <!-- exchange queue binging key 绑定 ,定义交换机-->
+    <!-- 关键配置见以上队列 配置信息-->
+    <!-- 交换机的类型分为Fanout 、Direct、Topic、Headers,效率不一样，一般建议使用 Direct-->
+
+    <rabbit:direct-exchange name="my-mq-exchange" durable="true" auto-delete="false" id="my-mq-exchange"
+                            declared-by="erpAdmin">
+        <rabbit:bindings>
+            <rabbit:binding queue="queue_one" key="queue.one"/>
+            <rabbit:binding queue="queue_one" key="queue_two_key"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+
+    <!--	<rabbit:topic-exchange name="my-mq-exchange"  durable="true" auto-delete="false" id="my-mq-exchange" declared-by="erpAdmin" >
+       <rabbit:bindings>
+       <rabbit:binding queue="queue_one"   pattern="queue.*"/>
+       </rabbit:bindings>
+       </rabbit:topic-exchange> -->
+
+    <!-- spring amqp默认的是jackson 的一个插件,目的将生产者生产的数据转换为json存入消息队列，由于fastjson的速度快于jackson,这里替换为fastjson的一个实现 -->
+    <bean id="jsonMessageConverter" class="com.sh.converter.FastJsonMessageConverter"></bean>
+
+    <!-- spring template声明 -->
+    <!-- 注意：RabbitTemplate提供的所有方法都是同步的 ，如果系统中需要有异步消息模板，需要自己实现-->
+    <!-- mandatory:是否强制发送消息 -->
+    <rabbit:template exchange="my-mq-exchange" id="amqpTemplate" connection-factory="connectionFactory"
+                     reply-timeout="18000" message-converter="jsonMessageConverter"/>
+
+
+    <!-- 异步的线程池，线程池的最在数不能设定太小，不然<rabbit:listener/>/@RabbitListener太多的话，会出现发无法正常消费问题 -->
+    <bean id="threadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5"/>
+        <property name="maxPoolSize" value="100"/>
+        <property name="queueCapacity" value="1000"/>
+        <property name="allowCoreThreadTimeOut" value="true"></property>
+    </bean>
+
+    <!-- 消费端  -->
+    <!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象-->
+    <!-- acknowledge:开启acknowledge的情况下，对接收到的消息可以根据业务的需要异步对消息进行确认。需配合prefetch才能达到根据消费者的消费能力，服务器端每次推送消息的个数-->
+    <!-- prefetch:每次客户端预取消息数量，表示RabbitMQ 不要在同一时间给一个工作者发送多于prefetch个的消息，保证消息的公平分发-->
+    <!-- concurrency:监听容器初始化并发消费者数量,如果此值大于channel的cach数量，chanel的cach数量将使用此值
+
+  <rabbit:listener-container connection-factory="connectionFactory" acknowledge="auto"  concurrency="3" max-concurrency="10"  prefetch="1"  task-executor="threadPoolTaskExecutor" >
+       <rabbit:listener ref="queueOneListener"  queue-names="queue_one"  admin="erpAdmin" />
+   </rabbit:listener-container>
+
+       -->
+    <bean id="queueOneListener" class="com.sh.listener.QueueOneListener"/>
+
+
+    <bean id="helloListenerAdapter"
+          class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+        <constructor-arg ref="queueOneListener"/>
+        <property name="defaultListenerMethod" value="showMessage"></property>
+        <property name="messageConverter" ref="jsonMessageConverter"></property>
+    </bean>
+    <!-- 用于消息的监听的容器类SimpleMessageListenerContainer，对于queueName的值一定要与定义的Queue的值相同 -->
+    <bean id="listenerContainer"
+          class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">
+
+        <property name="queueNames" value="queue_one"></property>
+        <property name="connectionFactory" ref="connectionFactory"></property>
+        <property name="messageListener" ref="helloListenerAdapter"></property>
+    </bean>
+    <!--
+<bean id="rabbitTxManager" class="org.springframework.amqp.rabbit.transaction.RabbitTransactionManager">
+<property name="connectionFactory" ref="connectionFactory" />
+</bean>
+<bean id="containerFactory" class="org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory">
+ <property name="connectionFactory" ref="connectionFactory" />
+ <property name="concurrentConsumers" value="1" />
+ <property name="maxConcurrentConsumers" value="10" />
+   <property name="transactionManager" ref="rabbitTxManager" />
+ <property name="channelTransacted" value="true" />
+ <property name="messageConverter" ref="jsonMessageConverter" />
+ <property name="taskExecutor" ref="threadPoolTaskExecutor" />
+
+</bean>
+-->
+
+    <!-- 监听生产者发送的消息结束 -->
+</beans>

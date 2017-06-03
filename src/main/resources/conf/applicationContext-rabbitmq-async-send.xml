@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <context:property-placeholder location="classpath:conf/rabbbitMq.properties"/>
+
+    <bean id="rabbitConnectionFactory" class="com.rabbitmq.spring.connection.RabbitConnectionFactory">
+        <property name="connectionFactory">
+            <bean class="com.rabbitmq.client.ConnectionFactory">
+                <property name="username" value="${rabbit.username}"/>
+                <property name="password" value="${rabbit.password}"/>
+                <property name="virtualHost" value="${rabbit.virtualHost}"/>
+            </bean>
+        </property>
+        <property name="hosts" value="${rabbit.hosts}"/>
+    </bean>
+    <bean id="rabbitChannelFactory" class="com.rabbitmq.spring.channel.RabbitChannelFactory">
+        <property name="connectionFactory" ref="rabbitConnectionFactory"/>
+    </bean>
+
+    <bean id="rabbitTemplate" class="com.rabbitmq.spring.template.ASyncRabbitTemplate">
+        <property name="channelFactory" ref="rabbitChannelFactory"/>
+        <property name="exchange" value="${rabbit.exchange}"/>
+        <property name="routingKey" value="${rabbit.routingKey}"/>
+        <!--optional-->
+        <property name="exchangeType" value="TOPIC"/>
+        <!--         mandatory是否强制发送       -->
+        <property name="mandatory" value="false"/>
+        <!--         immediate是否立即发送   -->
+        <property name="immediate" value="false"/>
+    </bean>
+
+</beans>

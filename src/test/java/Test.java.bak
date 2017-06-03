@@ -1,0 +1,100 @@
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.epe.core.ExcelResolve;
+import org.epe.core.ResolveException;
+import org.epe.core.SheetItem;
+import org.epe.core.test.Student;
+import org.epe.core.test.Teacher;
+
+public class Test {
+	private static String LIST_KEY="list";
+	private static String MESSAGE_KEY="message";
+	public static void main(String[] args) throws ResolveException {
+		Test test=new Test();
+//		test.reader();
+		test.write();
+	}
+
+	public void write() {
+		List<Student> list = new ArrayList<Student>();
+		List<Teacher> list1=new ArrayList<Teacher>();
+		for (int i = 0; i < 30; i++) {
+			Student su = new Student();
+			int id = i + 1;
+			su.setName("����" + id);
+			su.setAge(1 + i);
+			su.setSex("��");
+			su.setSid(id);
+			list.add(su);
+		}
+		for(int j=0;j<30;j++)
+		{
+			Teacher teacher=new Teacher();
+			teacher.setName("����"+j);
+			teacher.setEducation("����");
+			list1.add(teacher);
+		}
+
+		// ʵ��ERE���
+		ExcelResolve ope = new ExcelResolve();
+		ope.setServerPath("c:\\�����˿���ϢExcel.xls");
+		// ����sheet��Ϣ
+		SheetItem sheetItem = new SheetItem();
+		sheetItem.setName("ѧ��");
+		sheetItem.setList(list);
+
+		SheetItem sheetItem1 = new SheetItem();
+		sheetItem1.setName("��ʦ");
+		sheetItem1.setList(list1);
+		// ����һ��sheetItem
+		ope.exportExcel(sheetItem, sheetItem1);
+	}
+
+	public void reader() {
+		// ʵ��ERE���
+		ExcelResolve ope = new ExcelResolve();
+		ope.setServerPath("c:\\�����˿���ϢExcel.xls");
+		ope.readerDataSource();
+		List<SheetItem> sheets =ope.inputExcel();
+		//�õ����е�sheetItem
+		for (SheetItem sheetItem : sheets) {
+			
+				if("ѧ��".equals(sheetItem.getName()))
+				{
+					Map map=ope.excelObjectMapping(sheetItem.getHeadCells(),Student.class);
+					//�õ�EOM��ļ���
+					List<Student> list=(List<Student>) map.get(Test.LIST_KEY);
+					//�õ��쳣��Ϣ
+					List<StringBuffer> message=(List<StringBuffer>) map.get(Test.MESSAGE_KEY);
+					for (int i = 0; i < list.size(); i++) {
+						Student student=list.get(i);
+						if(student.getName()!=null && !"".equals(student.getName()))
+						{
+							System.out.println("����"+student.getName());
+							System.out.println("���䣺"+student.getAge());							
+						}
+					}
+				}else
+				{
+					Map map=ope.excelObjectMapping(sheetItem.getHeadCells(),Teacher.class);
+					//�õ�EOM��ļ���
+					List<Teacher> list1=(List<Teacher>) map.get(Test.LIST_KEY);
+					//�õ��쳣��Ϣ
+					List<StringBuffer> message=(List<StringBuffer>) map.get(Test.MESSAGE_KEY);
+					for (int i = 0; i < list1.size(); i++) {
+						Teacher teacher=list1.get(i);
+						if(teacher.getName()!=null && !"".equals(teacher.getName()))
+						{
+							System.out.println("����"+teacher.getName());
+							System.out.println("ѧ��"+teacher.getEducation());
+							
+						}
+					}
+				}
+		}
+	}
+}

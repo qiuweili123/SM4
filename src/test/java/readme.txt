@@ -1,0 +1,7 @@
+mybaties-generretor
+
+1、Context生成类
+2、DefaultCommentGenerator 生成各类注释
+3、DatabaseIntrospector 用于配置数据表相关的信息
+4、 ParserEntityResolver 用来加载验证xml的dtd文件
+5、FullyQualifiedTable 用来生成表的批量设置
