@@ -21,7 +21,6 @@ public class cMap extends HashMap<String, String> {
         new cMap();
     }
 
-    @Override
     void init() {
         System.out.println("cmap");
     }

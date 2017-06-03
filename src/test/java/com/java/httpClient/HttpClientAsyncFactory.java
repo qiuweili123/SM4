@@ -9,6 +9,12 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.concurrent.FutureCallback;
 import org.apache.http.impl.client.LaxRedirectStrategy;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClients;
+import org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager;
+import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
+import org.apache.http.nio.reactor.ConnectingIOReactor;
+import org.apache.http.nio.reactor.IOReactorException;
 import org.apache.http.protocol.HTTP;
 
 import java.util.ArrayList;
@@ -34,15 +40,21 @@ public class HttpClientAsyncFactory {
     private void initHttpClient() {
         try {
             ConnectingIOReactor ioReactor = new DefaultConnectingIOReactor();
+
             PoolingNHttpClientConnectionManager connManager = new PoolingNHttpClientConnectionManager(ioReactor);
-            connManager.setMaxTotal(HttpClientConstant.MAX_TOTAL);
-            connManager.setDefaultMaxPerRoute(HttpClientConstant.MAX_ROUTE_TOTAL);
-            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(HttpClientConstant.CONNECT_TIMEOUT)//请求超时
+            connManager.setMaxTotal(1000);
+            connManager.setDefaultMaxPerRoute(50);
+            RequestConfig requestConfig = RequestConfig.custom()
+                    .setConnectTimeout(3000)//请求超时
                     .build();
             //设置重定向策略
             LaxRedirectStrategy redirectStrategy = new LaxRedirectStrategy();
 
-            httpClient = HttpAsyncClients.custom().setConnectionManager(connManager).setDefaultRequestConfig(requestConfig).setRedirectStrategy(redirectStrategy).build();
+            httpClient = HttpAsyncClients.custom()
+                    .setConnectionManager(connManager)
+                    .setDefaultRequestConfig(requestConfig)
+                    .setRedirectStrategy(redirectStrategy)
+                    .build();
         } catch (IOReactorException e) {
             log.error("initHttpClient err : " + e);
         }
@@ -72,18 +84,16 @@ public class HttpClientAsyncFactory {
                         latch.countDown();
                         System.out.println(request.getRequestLine() + "->" + response.getStatusLine());
                     }
-
                     public void failed(final Exception e) {
                         latch.countDown();
                     }
-
                     public void cancelled() {
                         latch.countDown();
                     }
                 });
             }
 //            latch.await();
-            latch.await(HttpClientConstant.WAIT_TIMEOUT, TimeUnit.MILLISECONDS);
+            latch.await(60000, TimeUnit.MILLISECONDS);
 //            httpClient.close();
         } catch (Exception e) {
             log.error("asyncPost err : " + e);

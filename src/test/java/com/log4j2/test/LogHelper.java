@@ -42,6 +42,6 @@ public class LogHelper {
         StackTraceElement stack[] = (new Throwable()).getStackTrace();
 
         Logger logger = Logger.getLogger(stack[1].getClassName());
-        logger.log(LogHelper.class.getName(), Level.ERROR, ExceptionUtil.toString(e), null);
+        logger.log(LogHelper.class.getName(), Level.ERROR, e, null);
     }
 }

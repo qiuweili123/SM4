@@ -10,10 +10,17 @@
  */
 package com.java.date;
 
+import org.apache.commons.httpclient.util.DateUtil;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * http://lilongfei1030.blog.163.com/blog/static/860152820136260822266/
@@ -23,7 +30,7 @@ import java.util.Date;
  * @Description:TODO(这里用一句话描述这个类的作用)
  */
 public class FastDateFormatTest {
-    public static final Logger loger = LoggerFactory.getLogger(FastDateFormatTest.class);
+    public static final Logger loger1 = LoggerFactory.getLogger(FastDateFormatTest.class);
     //线程数
     private static final int THREAD_NUM = 50;
     // 客户端数
@@ -38,15 +45,14 @@ public class FastDateFormatTest {
     }
 
     private static Logger getDefaultLogger() {
-        return Logger.getLogger("Businesslog");
+        return LoggerFactory.getLogger("Businesslog");
     }
 
-    @Override
+
     public void setUp() throws Exception {
         // TODO: 实现测试前的初始化工作
     }
 
-    @Override
     public void tearDown() throws Exception {
         // 实现测试完成后的垃圾回收、测试结果统计等工作
         loger.info("访问数:" + CLIENT_NUM);
@@ -88,7 +94,7 @@ public class FastDateFormatTest {
      */
     private void doParseTest() {
         try {
-            DateUtil.parse("2013-07-25");
+            DateUtil.parseDate("2013-07-25");
         } catch (Throwable e) {
             failCount++;
             e.printStackTrace();
@@ -109,7 +115,7 @@ public class FastDateFormatTest {
                 assertTrue("ERROR TOMORROW IS:" + tomorrow, "2013-07-26".equals(tomorrow));
             }
         } catch (Throwable e) {
-            loger.error(e);
+            loger.error(String.valueOf(e));
             failCount++;
         }
     }
