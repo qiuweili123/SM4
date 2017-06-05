@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+    <!--用MvcServiceReplaceImpl中的方法替代类com.bing.service.MvcService中的getTime方法。当你运行时候返回的结果就不是上面的“yy-MM-dd”的时间格式-->
+    <bean id="mvcService" class="com.spring.replaceMd.MvcService">
+        <replaced-method name="getTime" replacer="replacementComputeValue"/>
+    </bean>
+    <bean id="replacementComputeValue" class="com.spring.replaceMd.MvcServiceReplaceImpl"/>
+</beans>

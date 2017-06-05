@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+    <!--方法注入不同于set注入和构造注入. -->
+    <!--lookup-method中name是BeanA中的抽象方法的名字.这里这个方法的用途是得到由cglib构造的BeanB的动态子类.
+
+lookup-mentod中bean是BeanB的类型.也就是cglib构造的BeanB的动态子类的父类型...目的当然是父类的句柄可以引用子类:用这个父类型引用构造出来的动态子类. -->
+    <bean id="hpDao" class="com.spring.lookupMd.HpDaoImpl" scope="prototype"/>
+
+    <bean id="hpService" class="com.spring.lookupMd.HpServiceImpl">
+        <lookup-method name="getHpDao" bean="hpDao"/>
+    </bean>
+</beans>
