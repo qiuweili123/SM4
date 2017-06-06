@@ -6,8 +6,6 @@ package com.spring.lookupMd;
  * 既然抽象了, 就不能final... 切记切记
  */
 public abstract class HpServiceImpl implements HpService {
-    // protected修饰
-    protected HpDao hpDao = getHpDao();
 
     /*
      * 这个方法是抽象的.
@@ -18,6 +16,7 @@ public abstract class HpServiceImpl implements HpService {
     @Override
     public int getHp() {
         // 调用原型BeanB的方法
+        System.out.println("into hpservice ....");
         return getHpDao().getHp();
     }
 }
