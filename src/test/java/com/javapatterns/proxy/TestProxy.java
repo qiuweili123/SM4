@@ -10,6 +10,7 @@
  */
 package com.javapatterns.proxy;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
 
 /**
@@ -19,11 +20,16 @@ import java.lang.reflect.Proxy;
  */
 public class TestProxy {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchMethodException {
         Subject subject = new RealSubject();
         SubjectHandler subjectHandler = new SubjectHandler(subject);
         Subject proxy = (Subject) Proxy.newProxyInstance(subject.getClass().getClassLoader(), subject.getClass().getInterfaces(), subjectHandler);
+        for (Field field : proxy.getClass().getFields()) {
+            System.out.println(field.getName());
+        }
+        System.out.println(proxy.getClass().getFields().length + "##" + proxy.getClass().getMethod("toString"));
         proxy.doSomething();
+
     }
 
 }
