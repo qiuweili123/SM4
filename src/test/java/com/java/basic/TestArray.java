@@ -23,5 +23,6 @@ public class TestArray {
         String[] strs = new String[]{"test04", "test10", "test03"};
         String str = Arrays.toString(strs);
         System.out.println(str + "==" + str.indexOf("test03"));
+
     }
 }
