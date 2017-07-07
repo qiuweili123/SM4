@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 /**
  * Created by lenovo on 2017/7/6.
  */
-@Component
 @Aspect
+@Component
 public class AopDataType {
-    @Pointcut("execution(* com.spring.aop.*.*(..))")
+    @Pointcut("execution(* com.spring.aop.*.set*(..))")
     //  (execution(* com.xxx.*.controller.*.*(..))
     public void postCut() {
-
+        System.out.println("sdsdsdsd");
     }
 
     @Pointcut("@annotation(com.spring.aop.Money)")
