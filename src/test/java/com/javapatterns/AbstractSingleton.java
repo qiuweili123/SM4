@@ -26,7 +26,7 @@ public abstract class AbstractSingleton<T> {
 
             // 第二种实现方式
             /*
-			 * synchronized (this) { if (ref.get() == null) { ret = newObj();
+             * synchronized (this) { if (ref.get() == null) { ret = newObj();
 			 * ref.set(ret); } else { ret = ref.get(); } }
 			 */
 
