@@ -10,6 +10,10 @@
  */
 package com.java.generic;
 
+import com.google.common.collect.Maps;
+
+import java.util.Map;
+
 /**
  * @author lenovo
  * @create time:2016年7月26日下午4:23:16
@@ -23,6 +27,10 @@ public class TestGeneric {
         // 通过此种方式
         C<B> c = new C<>();
         c.save(new B());
+        Generic generic = new Generic();
+        Map map = Maps.newHashMap();
+        User user = new User();
 
+        generic.showInfo(map, user);
     }
 }

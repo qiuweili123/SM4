@@ -27,6 +27,7 @@ public class AopTest {
     public void testRes() {
         System.out.println("##==" + user);
         user.setMoney(10L);
+        user.setMoney(20L);
 
     }
 

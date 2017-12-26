@@ -34,7 +34,7 @@ public class User {
 
     @Money
     public void setMoney(Long money) {
-        System.out.println("999999999999999999999");
+        System.out.println("############ret==" + money);
         this.money = money;
     }
 }

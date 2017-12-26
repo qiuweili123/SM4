@@ -33,7 +33,6 @@ public class MultiMapTest {
         }
         System.out.println("scoreMultimap:" + scoreMultimap.size());
         System.out.println("scoreMultimap:" + scoreMultimap.values());
-
         Collection<StudentScore> studentScore = scoreMultimap.get("peida");
         studentScore.clear();
         StudentScore studentScoreNew = new StudentScore();

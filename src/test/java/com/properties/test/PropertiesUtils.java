@@ -35,6 +35,7 @@ public class PropertiesUtils {
     public static Properties loadProperties(String[] resourcesPaths) throws IOException {
         Properties props = new Properties();
 
+
         for (String location : resourcesPaths) {
             log.debug("Loading properties file from:" + location);
 

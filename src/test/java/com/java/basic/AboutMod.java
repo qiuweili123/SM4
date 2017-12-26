@@ -19,7 +19,7 @@ public class AboutMod {
     public static void main(String[] args) {
         try {
             //System.out.println(10%10+"##"+10/0);
-            System.out.println(1541071912 % 4);
+            System.out.println(2 % 2 + "##" + 2 / 2);
         } catch (Exception e) {
             e.printStackTrace();
             //System.out.println(e.pr);

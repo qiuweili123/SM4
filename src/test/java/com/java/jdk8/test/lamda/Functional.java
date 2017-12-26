@@ -10,9 +10,11 @@ package com.java.jdk8.test.lamda;
 public interface Functional {
     String m1(String key, String key2);
 
+    //String m2(String key, String key2,String key3);
+
     //默认方法与静态方法并不影响函数式接口的契约，可以任意使用,单不能出现同样的方法
     // void  m2(String key,String key2);
-    default void defaultMethod() {
-        System.out.println("###");
+    default void defaultMethod(String a, String b) {
+        System.out.println(a + "###" + b);
     }
 }

@@ -23,6 +23,7 @@ public class BeanSeralizerTest {
 
         dog.modules = modules;
         String text = JSON.toJSONString(dog, SerializerFeature.WriteClassName);
+
         System.out.println("text==" + text);
     }
 

@@ -10,7 +10,10 @@
  */
 package com.java.basic;
 
+import com.google.common.collect.Lists;
+
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author liqiuwei
@@ -23,6 +26,8 @@ public class TestArray {
         String[] strs = new String[]{"test04", "test10", "test03"};
         String str = Arrays.toString(strs);
         System.out.println(str + "==" + str.indexOf("test03"));
+        List<String> list = Lists.newArrayList();
+        System.out.println(list.get(1));
 
     }
 }

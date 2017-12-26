@@ -1,5 +1,8 @@
 package com.java.generic;
 
+import com.sh.hibernate.dao.support.GenericsUtils;
+import org.apache.commons.lang.StringUtils;
+
 public class Generic<T, T2, T3> {
 
     private T entity;
@@ -14,7 +17,7 @@ public class Generic<T, T2, T3> {
         this.entity = obj;
         this.entity2 = obj2;
         this.entity3 = obj3;
-        //this.entity=(T) GenericsUtils.getSuperClassGenricType(getClass());
+        this.entity = (T) GenericsUtils.getSuperClassGenricType(getClass());
     }
 
     public T2 getEntity2() {
@@ -48,8 +51,12 @@ public class Generic<T, T2, T3> {
      */
 
 
-    public <E> void showInfo(E en) {
-        System.out.println("e" + en.getClass().getSimpleName());
+    public <E> void showInfo(E... en) {
+        for (E e : en) {
+
+            System.out.println("#dd#" + StringUtils.uncapitalize(e.getClass().getSimpleName()) + "warrper==" + (e.getClass().getClassLoader() == null));
+        }
+
     }
 
     public <G, E> void showInfo2(String str, Class<G> classd, E e) {

@@ -12,7 +12,10 @@ import java.util.Calendar;
 public class MvcServiceReplaceImpl implements MethodReplacer {
     @Override
     public Object reimplement(Object o, Method method, Object[] objects) throws Throwable {
-        SimpleDateFormat formate = new SimpleDateFormat("yy-MM-dd HH:mm:ss.SS");
+        for (Object object : objects) {
+            System.out.println("objecy==" + object);
+        }
+        SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
         Calendar c = Calendar.getInstance();
         c.add(Calendar.YEAR, 2);
         System.out.println(o + "##" + method.getName());

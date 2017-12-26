@@ -18,7 +18,7 @@ public class TestReplaceMethod {
 
     @Test
     public void testGetTime() {
-        System.out.println("end::" + mvcService.getTime());
+        System.out.println("end::" + mvcService.getTime("sdsdd"));
     }
 }
 

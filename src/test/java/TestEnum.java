@@ -16,11 +16,14 @@ public class TestEnum {
         System.out.println(SeasonEnum.spring + "##" + SeasonEnum.position + "##" + SeasonEnum.getSeason());
         System.out.println("" + Oparate.MINUS.operate(1, 3));
         System.out.println("测试value of=" + Oparate.getOparateEnum("minus").operate(4, 5));
+
         Fruit f = FruitFactoryEnum.valueOf("greenApple".toUpperCase()).createFruit();
         Fruit f2 = FruitFactoryEnum.valueOf("greenApple".toUpperCase()).createFruit();
 
         System.out.println("##FruitFactoryEnum==" + f);
         System.out.println("##FruitFactoryEnum==" + (f == f2));
+
+        System.out.println(FruitFactoryEnum.GREENAPPLE.name());
 
     }
 

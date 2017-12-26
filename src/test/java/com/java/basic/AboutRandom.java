@@ -10,6 +10,8 @@
  */
 package com.java.basic;
 
+import org.apache.commons.lang3.RandomUtils;
+
 import java.util.Random;
 
 /**
@@ -19,10 +21,24 @@ import java.util.Random;
  */
 public class AboutRandom {
     public static void main(String[] args) {
+        System.out.println(getRandNum(1, 999999));
+        //  System.out.println( RandomStringUtils.random(6));
+
+        System.out.println(RandomUtils.nextInt(100000, 999999));
         Random random = new Random();
-        for (int i = 0; i < 10; i++) {
-            System.out.println(random.nextInt(1000000));
-        }
+        System.out.println(random.nextInt() + "##ramdom==" + (random.nextInt(10)));
+    }
+
+    /**
+     * 短信验证码
+     *
+     * @param min
+     * @param max
+     * @return
+     */
+    public static int getRandNum(int min, int max) {
+        int randNum = min + (int) (Math.random() * ((max - min) + 1));
+        return randNum;
     }
 
 }

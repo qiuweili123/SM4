@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -44,7 +45,7 @@ public class CustomizeScanTest {
         annotationConfigApplicationContext.refresh();
 
         ScanClass1 injectClass = annotationConfigApplicationContext.getBean(ScanClass1.class);
-        injectClass.print();
+        injectClass.print("moon");
 
 	/*
      * PathTest pathTest =
@@ -68,7 +69,7 @@ public class CustomizeScanTest {
         public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
             Scanner scanner = new Scanner((BeanDefinitionRegistry) beanFactory);
             scanner.setResourceLoader(this.applicationContext);
-            scanner.scan("com.ly.ie.ibbd.dsf.test");
+            scanner.scan("com.spring.scan.test");
         }
     }
 
@@ -168,8 +169,9 @@ public class CustomizeScanTest {
 
         @Override
         public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-            System.out.println("MethodInterceptorImpl:" + method.getName());
-            return methodProxy.invokeSuper(o, objects);
+
+            System.out.println(Arrays.toString(objects) + "##" + methodProxy.getSignature().getName() + "MethodInterceptorImpl:" + method.getName());
+            return methodProxy.invokeSuper(o, new Object[]{objects[0] + " ::new name"});
         }
     }
 

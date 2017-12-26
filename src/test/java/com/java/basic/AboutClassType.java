@@ -11,6 +11,7 @@ public class AboutClassType {
         System.out.println(isWrapClass(Integer.class));
         System.out.println(isWrapClass(String.class));
         System.out.println(isWrapClass(Map.class));
+        System.out.println(isWrapClass(int.class));
         System.out.println(isWrapClass(Student.class));
     }
 
