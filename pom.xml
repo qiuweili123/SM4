@@ -20,6 +20,15 @@
         <spring.data.redis.version>1.6.0.RELEASE</spring.data.redis.version>
         <cache-ri-impl.version>1.0.0</cache-ri-impl.version>
     </properties>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <build>
+
+            </build>
+
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
@@ -574,6 +583,21 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.3.3</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.6</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-chain/commons-chain -->
+        <dependency>
+            <groupId>commons-chain</groupId>
+            <artifactId>commons-chain</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
