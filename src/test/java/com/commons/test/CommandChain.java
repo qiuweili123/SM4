@@ -24,8 +24,15 @@ public class CommandChain extends ChainBase {
         Command process = new CommandChain();
 
         Context ctx = new SellVehicleContext();
+        ctx.put("alias", "ligang");
+        ctx.put("name", "123");
 
-        process.execute(ctx);
+        try {
+            process.execute(ctx);
+        } catch (Exception e) {
+            System.out.println("exception::" + e.getMessage());
+        }
+
 
     }
 

@@ -8,9 +8,8 @@ public class Command2 implements Command {
 
     public boolean execute(Context ctx) throws Exception {
         SellVehicleContext context = (SellVehicleContext) ctx;
-        if (StringUtils.isEmpty(context.getName())) {
-            System.out.println("Command2 is done!");
-            return false;
+        if (StringUtils.isBlank(context.getName())) {
+            throw new Exception("超出");
         }
 
 
