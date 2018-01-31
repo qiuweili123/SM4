@@ -1,5 +1,7 @@
 package com.java.basic;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -75,12 +77,38 @@ public class AboutBigDecimal {
     public static void main(String[] args) {
         System.out.println(add(0.06, 0.01));
         BigDecimal aDouble = new BigDecimal(1.22);
-        System.out.println("construct with a double value: " + aDouble + "getscale value=" + getScaleValue(aDouble) + "#value==" + BigDecimal.valueOf(1.22));
+        float afloat=12.35f;new Float(1.22);
+        System.out.println("construct with a double value: " + aDouble + "getscale value=" + getScaleValue(aDouble) + "#value==" + BigDecimal.valueOf(1.22)+"##"+afloat);
         BigDecimal aString = new BigDecimal("1.22");
-        System.out.println("construct with a String value: " + aString);
+        Number number1 = NumberUtils.createNumber("1.0");
+
+        Number number2 = NumberUtils.createNumber("2.0");
+
+        System.out.println("compare=="+compare(number1,number2));
+        System.out.println("construct with a String value: " + aString+"::number=="+number1);
+
         //  System.out.println(addDecimal(null,new BigDecimal("1.22")));
         BigDecimal bDouble = new BigDecimal(1.32);
         System.out.println(aDouble.compareTo(aString) + "#####" + compare(aDouble, bDouble));
+
+        Float f1 = 200f;
+        Float f2 = 200f;
+        System.out.println("f1 == f2:" + (f1.floatValue()==f2.floatValue()));
+    }
+
+    public static int compare(Number x, Number y){
+        if(x instanceof  Long){
+            System.out.println("floaddd");
+        }else
+        {
+            System.out.println("dddddss");
+        }
+         if(x==y){
+            return 0;
+         }
+
+
+ return 1;
 
     }
 }

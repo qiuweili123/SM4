@@ -26,9 +26,21 @@ public class AboutFor {
         int flag = 2;
         System.out.println("##" + (flag |= 1));
 
-        for (String str : strs) {
+       /* for (String str : strs) {
             System.out.println("str==" + str);
         }
+        */
+          flag = 2;
+        switch (flag){
+            case 2:
+                System.out.println("2222===");
+                System.out.println("2222++++");
+                break;
+            case 3:
+                System.out.println("3===");
+                System.out.println("3----");
+        }
+
     }
 
 }

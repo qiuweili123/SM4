@@ -1,6 +1,9 @@
 import com.java.basic.AboutFinal;
 import com.javapatterns.ImmutableData;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestFinal {
     public static void main(String[] args) {
         //final修饰基本数据类型变量时，只能赋值一次,再赋重值也不行，变量的值是不可改变的,修饰引用数据类型对象时对象的地址是
@@ -22,5 +25,9 @@ public class TestFinal {
 
 	 */
         System.out.println(data1.hashCode() + "sd" + new ImmutableData(6).hashCode());
+
+        //tmp
+        List list =new ArrayList(5);
+        System.out.println(list.size());
     }
 }
