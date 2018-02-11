@@ -5,7 +5,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -18,17 +19,19 @@ import java.util.Properties;
  * @date 2012-11-27 下午04:22:36 
  *  
  */  
-@Component
+@Service
 public class SpringBeanUtil implements ApplicationContextAware {  
     protected final static Log logger = LogFactory.getLog(SpringBeanUtil.class);  
-  
+
+
     private static ApplicationContext ctx = null;  
   
     private static Map<String, Properties> propMap = new HashMap<String, Properties>(  
             0);  
   
     public void setApplicationContext(ApplicationContext ctx)  
-            throws BeansException {  
+            throws BeansException {
+        System.out.println("----------------------------int-----------------------------------------");
         SpringBeanUtil.ctx = ctx;  
     }  
   

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RequiredValidator implements Validator {
+    public RequiredValidator(){
+        System.out.println("--------------RequiredValidator-----------");
+    }
     @Override
     public void validate(String stri) {
 

@@ -7,7 +7,7 @@ import java.lang.annotation.*;
  *
  * @author peida
  */
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface FruitColor {

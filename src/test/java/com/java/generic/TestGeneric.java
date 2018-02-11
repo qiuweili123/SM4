@@ -12,6 +12,7 @@ package com.java.generic;
 
 import com.google.common.collect.Maps;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -24,13 +25,18 @@ public class TestGeneric {
         /*
          * B<String> a = new B<String>(); a.doGetClass();
 		 */
-        // 通过此种方式
-        C<B> c = new C<>();
-        c.save(new B());
-        Generic generic = new Generic();
         Map map = Maps.newHashMap();
         User user = new User();
+        // 通过此种方式
+        C<Map> c = new C<>();
+        c.save(new HashMap());
+        Generic generic = new Generic();
+
+        System.out.println("##sss"+c.getEntity());
 
         generic.showInfo(map, user);
+
+        E e=new E(map);
+        System.out.println("##"+e.getEntity());
     }
 }

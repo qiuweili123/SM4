@@ -1,10 +1,12 @@
 package com.spring.bean;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,22 +21,26 @@ import java.util.Map;
 // ApplicationContext will be loaded from AppConfig and TestConfig
 @Configuration
 @ComponentScan(basePackages = {"com.spring.bean"})
+
 @EnableAspectJAutoProxy
 @ContextConfiguration(classes = {BeanTest.class})
 public class BeanTest {
-    @Resource
-    private SpringBeanUtil springBeanUtil;
+    /*@Resource
+    private SpringBeanUtil springBeanUtil;*/
 
     static   Map<String, Validator> beans;
 
-    @PostConstruct
-    public void init(){
-        beans= SpringBeanUtil.getApplicationContext().getBeansOfType(Validator.class);
+    private Map<String, Validator> getValidatorBeansMap() {
+        if (beans == null) {
+            beans = SpringBeanUtil.getApplicationContext().getBeansOfType(Validator.class);
+        }
+        return beans;
     }
+
     @Test
     public void testGetBean() {
-
-        System.out.println("##" + beans);
+        getValidatorBeansMap();
+         System.out.println("##" + beans);
 
     }
 
