@@ -10,6 +10,11 @@ import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.search.sort.Sort;
+import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.SortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
 
 import java.io.IOException;
 import java.util.Date;
@@ -82,6 +87,9 @@ public class JestTest {
     }
 
     public static void testQuery() throws IOException {
+        //使用es自身的querybuilder
+        QueryBuilder queryBuilder = QueryBuilders.matchQuery("oid", "123");
+        System.out.println("##"+queryBuilder);
         String str = "{\n" +
                 "  \"query\": {\n" +
                 "    \"match\": {\n" +
@@ -89,7 +97,19 @@ public class JestTest {
                 "    }\n" +
                 "  }\n" +
                 "}";
+        String str1="{\"query\":{\n" +
+                "  \"match\" : {\n" +
+                "    \"oid\" : {\n" +
+                "      \"query\" : \"123\",\n" +
+                "      \"type\" : \"boolean\"\n" +
+                "    }\n" +
+                "  }\n" +
+                "}}";
+
+        System.out.println("##str=="+str+"\nstr1="+str1);
+
         Search.Builder builder = new Search.Builder(str);
+
         builder.addIndex("customer")
                 .addType("person")
                 //  .setHeader(PWDKEY, getSecret())
@@ -98,8 +118,16 @@ public class JestTest {
         /*if(esQuery.getSort()!=null){
             builder.addSort(esQuery.getSort());
         }*/
-        Sort sort=new Sort("user");
+       SortBuilder sortBuilder= SortBuilders.fieldSort("user").sortMode("desc");
+
+
+        System.out.println("##sortBuilder=="+sortBuilder);
+        Sort sort=new Sort("user", Sort.Sorting.DESC);
         builder.addSort(sort);
+
+
+
+
 
         JestResult jestResult = client.execute(builder.build());
         List<Map> asObjectList = jestResult.getSourceAsObjectList(Map.class);
