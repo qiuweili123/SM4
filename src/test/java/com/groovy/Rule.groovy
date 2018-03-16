@@ -1,7 +1,7 @@
-package com.groovy;
+package com.groovy
 
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
+import java.text.ParseException
+import java.text.SimpleDateFormat
 
 class Rule2 {
     //以下是英文部分变量,一般通过程序自动装载得到,用于从数据库或其他持久层加载业务数据
@@ -110,6 +110,10 @@ public static void main(String[] args) {
     def rctx = new Rule2()
 //输出结果看
 //----简单的规则取值
+
+
+    println rctx.collegeName
+    println "hh=${rctx.规则集.基础信息.是否90后}"
     println "基础信息.是否90后  =  ${rctx.规则集.基础信息.是否90后}"
     println "基础信息.性别      = ${rctx.规则集.基础信息['性别']}"
     println "基础信息.注册天数      = ${rctx.规则集.基础信息.注册天数}"
