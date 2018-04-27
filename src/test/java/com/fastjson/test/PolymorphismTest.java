@@ -54,8 +54,12 @@ public class PolymorphismTest {
 
         String text = JSON.toJSONString(animals, SerializerFeature.WriteClassName);
         System.out.println("text==" + text);
-        String tString = "[{\"@type\":\"dog\",\"dogName\":\"dog1001\",\"modules\":[{\"@type\":\"SexModule\",\"sexModuleName\":\"sex_module_name\"},{\"@type\":\"AgeModule\",\"ageModuleName\":\"doge_age_module\"}]},{\"@type\":\"cat\",\"catName\":\"cat2001\"}]";
+        String tString="[{\"@type\":\"dog\",\"CNName\":\"cdnName\",\"cNName\":\"cdnName\",\"dogName\":\"dog1001\",\"modules\":[{\"@type\":\"com.fastjson.test.SexModule\",\"sexModuleName\":\"sex_module_name\"},{\"@type\":\"AgeModule\",\"ageModuleName\":\"doge_age_module\"}]},{\"@type\":\"cat\",\"catName\":\"cat2001\"}]";
+         // SexModul使用@type注解
+        //   String tString = "[{\"@type\":\"dog\",\"dogName\":\"dog1001\",\"modules\":[{\"@type\":\"SexModule\",\"sexModuleName\":\"sex_module_name\"},{\"@type\":\"AgeModule\",\"ageModuleName\":\"doge_age_module\"}]},{\"@type\":\"cat\",\"catName\":\"cat2001\"}]";
         List<Animal> list = JSON.parseArray(tString, Animal.class);
+        System.out.println("##list=="+list);
+
         for (Animal animal : list) {
             if (animal instanceof Dog) {
                 Dog dog1 = (Dog) animal;
