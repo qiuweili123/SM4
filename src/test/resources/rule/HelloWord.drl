@@ -1,0 +1,8 @@
+package com.drools.rule;
+dialect  "mvel"
+
+rule "HelloWord"
+    when
+    then
+    System.out.println(" helloword");
+end

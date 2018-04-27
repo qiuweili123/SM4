@@ -1,13 +1,13 @@
 package com.drools;
 
 
+import org.drools.core.impl.InternalKnowledgeBase;
+import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.decisiontable.InputType;
 import org.drools.decisiontable.SpreadsheetCompiler;
 import org.kie.api.io.Resource;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieSession;
-import org.kie.internal.KnowledgeBase;
-import org.kie.internal.KnowledgeBaseFactory;
 import org.kie.internal.builder.DecisionTableConfiguration;
 import org.kie.internal.builder.DecisionTableInputType;
 import org.kie.internal.builder.KnowledgeBuilder;
@@ -24,9 +24,9 @@ public class DecisionCommonTest {
         dtc.setInputType(DecisionTableInputType.XLS);
         KnowledgeBuilder knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
         knowledgeBuilder.add(ResourceFactory.newClassPathResource(xlsPath, DecisionCommonTest.class), ResourceType.DTABLE, dtc);
-        KnowledgeBase knowledgeBase = knowledgeBuilder.newKnowledgeBase();
-        knowledgeBase.addKnowledgePackages(knowledgeBuilder.getKnowledgePackages());
-        return knowledgeBase.newStatefulKnowledgeSession();
+        InternalKnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
+        knowledgeBase.addPackages(knowledgeBuilder.getKnowledgePackages());
+        return knowledgeBase.newKieSession();
     }
 
     /**
@@ -40,15 +40,15 @@ public class DecisionCommonTest {
         KnowledgeBuilder knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
         knowledgeBuilder.add(resource, ResourceType.DRL);
 
-        KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
-        knowledgeBase.addKnowledgePackages(knowledgeBuilder.getKnowledgePackages());
-        return knowledgeBase.newStatefulKnowledgeSession();
+        InternalKnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
+        knowledgeBase.addPackages(knowledgeBuilder.getKnowledgePackages());
+        return knowledgeBase.newKieSession();
     }
 
     /**
      * 将XLS文件编译为DRL字符串
      *
-     * @param xlsPath 决策表XLS文件路径
+     * @param fileName 决策表XLS文件路径
      * @return DRL字符串
      * @throws Exception
      */
