@@ -19,7 +19,7 @@
         <javax.cache.version>1.0.0</javax.cache.version>
         <spring.data.redis.version>1.6.0.RELEASE</spring.data.redis.version>
         <cache-ri-impl.version>1.0.0</cache-ri-impl.version>
-        <drools.version>7.0.0.Final</drools.version>
+        <drools.version>7.5.0.Final</drools.version>
     </properties>
     <profiles>
         <profile>
