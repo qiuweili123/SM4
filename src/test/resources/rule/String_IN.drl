@@ -1,0 +1,13 @@
+package rules;
+dialect  "mvel"
+import java.util.HashMap;
+import java.util.Arrays;
+import org.apache.commons.lang3.StringUtils;
+import java.util.List;
+
+
+
+rule "String_Contains"
+    when $map:HashMap($map.get("code")   in  ("101","102","102") )      then
+     $map.put("ret","包含code");
+end
