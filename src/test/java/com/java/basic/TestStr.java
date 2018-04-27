@@ -49,6 +49,7 @@ public class TestStr {
     str = str.replaceAll("e", "a");*/
         String str = "com/3/@6";
 
+        
 
         System.out.println(str.replaceAll("[com/|/|@]", ""));
     }
