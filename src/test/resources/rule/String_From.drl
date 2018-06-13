@@ -1,17 +1,17 @@
 package rules;
 dialect  "mvel"
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Arrays;
 import org.apache.commons.lang3.StringUtils;
 import java.util.List;
+import com.sh.utils.StringUtils;
+
+dialect "mvel"
 
 
-function List<String> toList(String str){
- return Arrays.asList(StringUtils.split(str,","));
-}
 
-rule "String_Contains"
-    when $map:HashMap()
-    $map.get("code")  from toList("101,102,102")    then
-     $map.put("ret","包含code");
+rule "String_from"
+    when
+      $map:Map( StringUtils.dquote("101,102,102").contains(StringUtils.dquote(this["code"])))   then
+      $map.put("ret","包含code");
 end

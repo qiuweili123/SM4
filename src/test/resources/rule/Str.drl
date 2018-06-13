@@ -1,0 +1,12 @@
+package com.drools.rules;
+import java.util.Map;
+dialect  "mvel"
+
+global String codes;
+
+rule "Str"
+    when $map:Map(this["code"]  str[startsWith] "100")
+
+    then
+     System.out.printf("包含元素"+ (codes+$map["code"]));
+end

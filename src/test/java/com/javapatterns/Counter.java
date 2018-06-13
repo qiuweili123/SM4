@@ -2,8 +2,13 @@ package com.javapatterns;
 
 public class Counter {
     // 新建一个静态的ThreadLocal变量，并通过get方法将其变为一个可访问的对象
-    private static ThreadLocal<Integer> counterContext = new ThreadLocal<Integer>() {
-        protected synchronized Integer initialValue() {
+    private static final ThreadLocal<Integer> counterContext = new ThreadLocal<Integer>() {
+  /*      protected synchronized Integer initialValue() {
+            return 0;
+        }*/
+
+        @Override
+        protected Integer initialValue() {
             return 0;
         }
     };

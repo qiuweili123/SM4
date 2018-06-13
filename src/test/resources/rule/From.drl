@@ -1,0 +1,13 @@
+package om.drools.roles;
+import java.util.List;
+import java.util.HashMap;
+dialect  "mvel"
+//过滤list中符合条件的元素
+rule "From"
+    when
+     $list:List()
+     $map:map( this["name"] =="zhangsan" ) from $list
+    then
+  System.out.printf("##"+$map);
+
+end
