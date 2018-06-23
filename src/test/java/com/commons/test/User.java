@@ -9,6 +9,7 @@ public class User {
     private String name;
     private Integer age;
     private Date birthday;
+ private  Address address;
 
     public String getName() {
         return name;
@@ -32,5 +33,13 @@ public class User {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }
