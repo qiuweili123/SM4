@@ -4,6 +4,7 @@ import com.commons.test.Address;
 import com.commons.test.User;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * Created by lenovo on 2017/6/27.
@@ -40,20 +41,35 @@ public class TestOptionnal {
              }
          }
          return "hell"
-  以上写法用下面的方式进行替换
+  以上写法用下面的方式进行替换.
+  一定要注意的是这里的map是返回的是Optional表达式，这使我们能够在一行中进行多个 map 操作。Null 检查是在底层自动处理的。
          */
         String s1 = Optional.ofNullable(u2)
-                .map(u -> u.getAddress())
+                .map(u -> {u.getAddress();
+                    System.out.println(u.getAddress()); return u;})
                 .map(address1 -> address1.getName())
                 .orElseGet(() -> {
                     return "hello";
                 });
-
+        //第二种处理方式
+      resolve(()->u2.getAddress().getName()).ifPresent(System.out::println);
+        System.out.println("s1==="+s1);
         System.out.println("--------------分割线---------------");
         address.setName("北京市");
         Optional.ofNullable(u2)
                 .map(u -> u.getAddress())
                 .map(address1 -> address1.getName())
                 .ifPresent(name -> System.out.println(name));
+    }
+    //有一种实现相同作用的方式就是通过利用一个 supplier 函数来解决嵌套路径的问题：
+
+    public static <T> Optional<T> resolve(Supplier<T> resolver) {
+        try {
+            T result = resolver.get();
+            return Optional.ofNullable(result);
+        }
+        catch (NullPointerException e) {
+            return Optional.empty();
+        }
     }
 }
