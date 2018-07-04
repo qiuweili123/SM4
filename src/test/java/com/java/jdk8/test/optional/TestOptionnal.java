@@ -27,6 +27,7 @@ public class TestOptionnal {
         //当u2不为空时执行特定操作
         Optional.ofNullable(u2).ifPresent(u -> {
             u.setName("zhangsan");
+            show(u2);
         });
         System.out.println(u2.getName());
         String s = Optional.ofNullable(u2).map(u -> u.getName()).get();
@@ -52,7 +53,9 @@ public class TestOptionnal {
                     return "hello";
                 });
         //第二种处理方式
+        System.out.println("--------------分割线---------------");
       resolve(()->u2.getAddress().getName()).ifPresent(System.out::println);
+        System.out.println("--------------分割线---------------");
         System.out.println("s1==="+s1);
         System.out.println("--------------分割线---------------");
         address.setName("北京市");
@@ -65,11 +68,19 @@ public class TestOptionnal {
 
     public static <T> Optional<T> resolve(Supplier<T> resolver) {
         try {
+
+//有可能任何时候出现异常
             T result = resolver.get();
             return Optional.ofNullable(result);
         }
         catch (NullPointerException e) {
+            //在这种情况下，该异常将会被捕获，而该方法会返回 Optional.empty()。
             return Optional.empty();
         }
     }
+    public  static  void show(User user){
+
+        System.out.println("show::"+user.getName());
+    }
+
 }
