@@ -21,6 +21,7 @@ import java.util.Map;
  * @Description:TODO(这里用一句话描述这个类的作用)
  */
 public class TestGeneric {
+
     public static void main(String[] args) {
         /*
          * B<String> a = new B<String>(); a.doGetClass();
@@ -38,5 +39,11 @@ public class TestGeneric {
 
         E e=new E(map);
         System.out.println("##"+e.getEntity());
+        System.out.println("-----------------------");
+
+        Pair<String> pair=new Pair<>();
+        pair.setFirst("");
+        pair.setFirst1(8);//注意上述两个的区别
+
     }
 }
