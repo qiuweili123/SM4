@@ -53,6 +53,9 @@ public class TestStr {
 
 
         System.out.println(str.replaceAll("[com/|/|@]", ""));
+
+        String folder=System.getProperty("java.io.tmpdir");
+        System.out.println(folder);
     }
 
 
