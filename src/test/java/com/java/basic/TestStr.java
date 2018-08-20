@@ -10,6 +10,8 @@
  */
 package com.java.basic;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Random;
 
 /**
@@ -56,6 +58,12 @@ public class TestStr {
 
         String folder=System.getProperty("java.io.tmpdir");
         System.out.println(folder);
+
+        String str1="1";
+
+        String[] strs=StringUtils.split(str1,",");
+
+        System.out.println(strs.length);
     }
 
 

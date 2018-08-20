@@ -11,9 +11,15 @@
 package com.java.basic;
 
 import com.google.common.collect.Lists;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author liqiuwei
@@ -27,7 +33,23 @@ public class TestArray {
         String str = Arrays.toString(strs);
         System.out.println(str + "==" + str.indexOf("test03"));
         List<String> list = Lists.newArrayList();
-        System.out.println(list.get(1));
 
-    }
+        // 数组类型转换
+        String[]  strIds =new String[]{"1","2","3"};
+        Long[] longIds= (Long[]) ConvertUtils.convert(strIds,Long.class);
+        System.out.println(Arrays.toString(longIds));
+        //数类型转换2
+
+        Long[] longIds1 = Arrays.stream(strIds).map(sId -> Long.parseLong(sId)).toArray(Long[]::new);
+        System.out.println("longIds1="+Arrays.toString(longIds1));
+        //转换为List
+        List<Long> longList = Arrays.stream(strIds).map(sId -> Long.parseLong(sId)).collect(Collectors.toList());
+        //List 转换类型数组
+        List<String> stringList =Lists.newArrayList(strIds);
+        Long[]  longIds2=new Long[stringList.size()];
+
+
+     //   Long[] longIds3 = stringList.toArray(longIds);
+
+        }
 }
