@@ -30,8 +30,8 @@ public class AboutFor {
             System.out.println("str==" + str);
         }
         */
-          flag = 2;
-        switch (flag){
+        flag = 2;
+        switch (flag) {
             case 2:
                 System.out.println("2222===");
                 System.out.println("2222++++");

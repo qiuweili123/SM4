@@ -1328,10 +1328,10 @@ public class MyConfiguration extends Configuration implements Serializable {
     private void processEndOfQueue(List<FkSecondPass> endOfQueueFkSecondPasses) {
         /*
          * If a second pass raises a recoverableException, queue it for next round
-		 * stop of no pass has to be processed or if the number of pass to processes
-		 * does not diminish between two rounds.
-		 * If some failing pass remain, raise the original exception
-		 */
+         * stop of no pass has to be processed or if the number of pass to processes
+         * does not diminish between two rounds.
+         * If some failing pass remain, raise the original exception
+         */
         boolean stopProcess = false;
         RuntimeException originalException = null;
         while (!stopProcess) {

@@ -30,11 +30,11 @@ public class PerfInterceptor implements MethodInterceptor {
         while (e.hasMoreElements()) {
             logger.info(e.nextElement().toString());
         }
-    }  
-      
-    /*  
-     * performance monitor for service layer 
-     * @see org.aopalliance.intercept.MethodInterceptor#invoke(org.aopalliance.intercept.MethodInvocation) 
+    }
+
+    /*
+     * performance monitor for service layer
+     * @see org.aopalliance.intercept.MethodInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
      */
 
     public Object invoke(MethodInvocation method) throws Throwable {

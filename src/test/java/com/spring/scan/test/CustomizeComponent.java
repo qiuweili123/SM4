@@ -3,7 +3,7 @@ package com.spring.scan.test;
 import java.lang.annotation.*;
 
 /**
- * @author wcong<wc19920415@gmail.com>
+ * @author wcong<wc19920415 @ gmail.com>
  * @since 16/1/22
  */
 @Target({ElementType.TYPE})

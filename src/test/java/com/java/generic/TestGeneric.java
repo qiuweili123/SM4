@@ -25,7 +25,7 @@ public class TestGeneric {
     public static void main(String[] args) {
         /*
          * B<String> a = new B<String>(); a.doGetClass();
-		 */
+         */
         Map map = Maps.newHashMap();
         User user = new User();
         // 通过此种方式
@@ -33,15 +33,15 @@ public class TestGeneric {
         c.save(new HashMap());
         Generic generic = new Generic();
 
-        System.out.println("##sss"+c.getEntity());
+        System.out.println("##sss" + c.getEntity());
 
         generic.showInfo(map, user);
 
-        E e=new E(map);
-        System.out.println("##"+e.getEntity());
+        E e = new E(map);
+        System.out.println("##" + e.getEntity());
         System.out.println("-----------------------");
 
-        Pair<String> pair=new Pair<>();
+        Pair<String> pair = new Pair<>();
         pair.setFirst("");
         pair.setFirst1(8);//注意上述两个的区别
 

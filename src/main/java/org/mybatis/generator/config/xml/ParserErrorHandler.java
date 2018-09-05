@@ -42,7 +42,7 @@ public class ParserErrorHandler implements ErrorHandler {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
      */
     public void warning(SAXParseException exception) throws SAXException {
@@ -52,7 +52,7 @@ public class ParserErrorHandler implements ErrorHandler {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
      */
     public void error(SAXParseException exception) throws SAXException {
@@ -62,7 +62,7 @@ public class ParserErrorHandler implements ErrorHandler {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
      */
     public void fatalError(SAXParseException exception) throws SAXException {

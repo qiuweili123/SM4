@@ -1,16 +1,13 @@
 package com.es;
 
-import io.searchbox.action.AbstractDocumentTargetedAction;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestClientFactory;
 import io.searchbox.client.JestResult;
 import io.searchbox.client.config.HttpClientConfig;
-import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.search.sort.Sort;
-import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.sort.SortBuilder;
@@ -33,7 +30,7 @@ public class JestTest {
         init();
         //  testInsertStr();
         //testInsertMap();
-       testQuery();
+        testQuery();
     }
 
     public static void init() {
@@ -68,7 +65,7 @@ public class JestTest {
 
     public static Map<String, Object> createMap() {
         Map<String, Object> map = new HashMap();
-        map.put("id",124);
+        map.put("id", 124);
         map.put("user", "limingming5");
         map.put("oid", 124);
         map.put("postDate", new Date());
@@ -89,7 +86,7 @@ public class JestTest {
     public static void testQuery() throws IOException {
         //使用es自身的querybuilder
         QueryBuilder queryBuilder = QueryBuilders.matchQuery("oid", "123");
-        System.out.println("##"+queryBuilder);
+        System.out.println("##" + queryBuilder);
         String str = "{\n" +
                 "  \"query\": {\n" +
                 "    \"match\": {\n" +
@@ -97,7 +94,7 @@ public class JestTest {
                 "    }\n" +
                 "  }\n" +
                 "}";
-        String str1="{\"query\":{\n" +
+        String str1 = "{\"query\":{\n" +
                 "  \"match\" : {\n" +
                 "    \"oid\" : {\n" +
                 "      \"query\" : \"123\",\n" +
@@ -106,7 +103,7 @@ public class JestTest {
                 "  }\n" +
                 "}}";
 
-        System.out.println("##str=="+str+"\nstr1="+str1);
+        System.out.println("##str==" + str + "\nstr1=" + str1);
 
         Search.Builder builder = new Search.Builder(str);
 
@@ -118,27 +115,24 @@ public class JestTest {
         /*if(esQuery.getSort()!=null){
             builder.addSort(esQuery.getSort());
         }*/
-       SortBuilder sortBuilder= SortBuilders.fieldSort("user").sortMode("desc");
+        SortBuilder sortBuilder = SortBuilders.fieldSort("user").sortMode("desc");
 
 
-        System.out.println("##sortBuilder=="+sortBuilder);
-        Sort sort=new Sort("user", Sort.Sorting.DESC);
+        System.out.println("##sortBuilder==" + sortBuilder);
+        Sort sort = new Sort("user", Sort.Sorting.DESC);
         builder.addSort(sort);
-
-
-
 
 
         JestResult jestResult = client.execute(builder.build());
         List<Map> asObjectList = jestResult.getSourceAsObjectList(Map.class);
         System.out.println("lsit==" + asObjectList);
         for (Map map : asObjectList) {
-            System.out.println("##map=="+map+"::vlaue=="+map.get("user"));
+            System.out.println("##map==" + map + "::vlaue==" + map.get("user"));
         }
     }
 
-     public  static  void testInsertOrUpdate(){
+    public static void testInsertOrUpdate() {
 
-     }
+    }
 
 }

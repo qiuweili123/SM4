@@ -128,7 +128,7 @@ public class DecisionMapTest {
 
 
             // KieSession kieSession = DroolsSvs.getKieSessionByXls(xlsPath);
-              kieSession = getKieSessionByDrlString(drlStr);
+            kieSession = getKieSessionByDrlString(drlStr);
             Map<String, Object> p1 = new HashMap<>();
 
             p1.put("param1", "Orthopedics");
@@ -156,7 +156,7 @@ public class DecisionMapTest {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (kieSession != null)
                 kieSession.dispose();
         }

@@ -33,7 +33,7 @@ import java.util.Set;
  * basic class, auto ,else if a factory bean ,create by factory bean 3
  * FactoryBean , create bean 4 Scan ,basic scan
  *
- * @author wcong<wc19920415@gmail.com>
+ * @author wcong<wc19920415 @ gmail.com>
  * @since 16/1/22
  */
 @Configuration
@@ -47,11 +47,11 @@ public class CustomizeScanTest {
         ScanClass1 injectClass = annotationConfigApplicationContext.getBean(ScanClass1.class);
         injectClass.print("moon");
 
-	/*
-     * PathTest pathTest =
-	 * annotationConfigApplicationContext.getBean(PathTest.class);
-	 * pathTest.say();
-	 */
+        /*
+         * PathTest pathTest =
+         * annotationConfigApplicationContext.getBean(PathTest.class);
+         * pathTest.say();
+         */
 
     }
 

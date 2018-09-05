@@ -1,17 +1,13 @@
 package com.spring.bean;
 
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -28,7 +24,7 @@ public class BeanTest {
     /*@Resource
     private SpringBeanUtil springBeanUtil;*/
 
-    static   Map<String, Validator> beans;
+    static Map<String, Validator> beans;
 
     private Map<String, Validator> getValidatorBeansMap() {
         if (beans == null) {
@@ -40,7 +36,7 @@ public class BeanTest {
     @Test
     public void testGetBean() {
         getValidatorBeansMap();
-         System.out.println("##" + beans);
+        System.out.println("##" + beans);
 
     }
 

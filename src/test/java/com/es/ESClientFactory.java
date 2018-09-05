@@ -21,7 +21,7 @@ public class ESClientFactory {
     private static final int MAX_CONNECT_NUM = 100;
     private static final int MAX_CONNECT_PER_ROUTE = 100;
 
-    private static HttpHost HTTP_HOST = new HttpHost(HOST,PORT,SCHEMA);
+    private static HttpHost HTTP_HOST = new HttpHost(HOST, PORT, SCHEMA);
     private static boolean uniqueConnectTimeConfig = false;
     private static boolean uniqueConnectNumConfig = true;
     private static RestClientBuilder builder;
@@ -32,12 +32,12 @@ public class ESClientFactory {
         init();
     }
 
-    public static void init(){
+    public static void init() {
         builder = RestClient.builder(HTTP_HOST);
-        if(uniqueConnectTimeConfig){
+        if (uniqueConnectTimeConfig) {
             setConnectTimeOutConfig();
         }
-        if(uniqueConnectNumConfig){
+        if (uniqueConnectNumConfig) {
             setMutiConnectConfig();
         }
         restClient = builder.build();
@@ -45,7 +45,7 @@ public class ESClientFactory {
     }
 
     // 主要关于异步httpclient的连接延时配置
-    public static void setConnectTimeOutConfig(){
+    public static void setConnectTimeOutConfig() {
         builder.setRequestConfigCallback(new RestClientBuilder.RequestConfigCallback() {
 
             @Override
@@ -57,8 +57,9 @@ public class ESClientFactory {
             }
         });
     }
+
     // 主要关于异步httpclient的连接数配置
-    public static void setMutiConnectConfig(){
+    public static void setMutiConnectConfig() {
         builder.setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
 
             @Override
@@ -70,11 +71,11 @@ public class ESClientFactory {
         });
     }
 
-    public static RestClient getClient(){
+    public static RestClient getClient() {
         return restClient;
     }
 
-    public static RestHighLevelClient getHighLevelClient(){
+    public static RestHighLevelClient getHighLevelClient() {
         return restHighLevelClient;
     }
 

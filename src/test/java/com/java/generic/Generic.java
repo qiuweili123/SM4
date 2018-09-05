@@ -73,7 +73,7 @@ public class Generic<T, T2, T3> {
         System.out.println("##calssname==" + entity2.getClass());
     }
 
-    public <T> T getT(T  instance){
+    public <T> T getT(T instance) {
 
         return instance;
     }

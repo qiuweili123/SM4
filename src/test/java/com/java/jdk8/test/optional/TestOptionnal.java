@@ -23,6 +23,8 @@ public class TestOptionnal {
             u.setAge(30);
             return u;
         });
+
+        //推荐写法return user.orElse(null); //而不是 return user.isPresent()?user.get():null;
         System.out.println("##" + u2.getAge());
         //当u2不为空时执行特定操作
         Optional.ofNullable(u2).ifPresent(u -> {
@@ -46,17 +48,21 @@ public class TestOptionnal {
   一定要注意的是这里的map是返回的是Optional表达式，这使我们能够在一行中进行多个 map 操作。Null 检查是在底层自动处理的。
          */
         String s1 = Optional.ofNullable(u2)
-                .map(u -> {u.getAddress();
-                    System.out.println(u.getAddress()); return u;})
+                .map(u -> {
+                    u.getAddress();
+                    System.out.println(u.getAddress());
+                    return u;
+                })
                 .map(address1 -> address1.getName())
-                .orElseGet(() -> {
-                    return "hello";
-                });
+                //.orElseGet(() -> {return "hello"; });//两种方式均可以，orElseGet需要返回一个默认值
+                .orElse(null);
+
+
         //第二种处理方式
         System.out.println("--------------分割线---------------");
-      resolve(()->u2.getAddress().getName()).ifPresent(System.out::println);
+        resolve(() -> u2.getAddress().getName()).ifPresent(System.out::println);
         System.out.println("--------------分割线---------------");
-        System.out.println("s1==="+s1);
+        System.out.println("s1===" + s1);
         System.out.println("--------------分割线---------------");
         address.setName("北京市");
         Optional.ofNullable(u2)
@@ -72,15 +78,15 @@ public class TestOptionnal {
 //有可能任何时候出现异常
             T result = resolver.get();
             return Optional.ofNullable(result);
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             //在这种情况下，该异常将会被捕获，而该方法会返回 Optional.empty()。
             return Optional.empty();
         }
     }
-    public  static  void show(User user){
 
-        System.out.println("show::"+user.getName());
+    public static void show(User user) {
+
+        System.out.println("show::" + user.getName());
     }
 
 }

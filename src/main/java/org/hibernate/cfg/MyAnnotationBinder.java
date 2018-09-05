@@ -581,12 +581,12 @@ public final class MyAnnotationBinder {
     private static boolean mapAsIdClass(Map<XClass, InheritanceState> inheritanceStatePerClass, InheritanceState inheritanceState, PersistentClass persistentClass, EntityBinder entityBinder, PropertyHolder propertyHolder, InheritanceState.ElementsToProcess elementsToProcess, Set<String> idPropertiesIfIdClass, Mappings mappings) {
         /*
          * We are looking for @IdClass
-		 * In general we map the id class as identifier using the mapping metadata of the main entity's properties
-		 * and we create an identifier mapper containing the id properties of the main entity
-		 *
-		 * In JPA 2, there is a shortcut if the id class is the Pk of the associated class pointed to by the id
-		 * it ought to be treated as an embedded and not a real IdClass (at least in the Hibernate's internal way
-		 */
+         * In general we map the id class as identifier using the mapping metadata of the main entity's properties
+         * and we create an identifier mapper containing the id properties of the main entity
+         *
+         * In JPA 2, there is a shortcut if the id class is the Pk of the associated class pointed to by the id
+         * it ought to be treated as an embedded and not a real IdClass (at least in the Hibernate's internal way
+         */
         XClass classWithIdClass = inheritanceState.getClassWithIdClass(false);
         if (classWithIdClass != null) {
             IdClass idClass = classWithIdClass.getAnnotation(IdClass.class);
@@ -849,10 +849,10 @@ public final class MyAnnotationBinder {
 
     }
 
-	/*
+    /*
      * Process the filters defined on the given class, as well as all filters defined
-	 * on the MappedSuperclass(s) in the inheritance hierarchy
-	 */
+     * on the MappedSuperclass(s) in the inheritance hierarchy
+     */
 
     private static void bindFilters(XAnnotatedElement annotatedElement, EntityBinder entityBinder) {
 
@@ -1005,10 +1005,10 @@ public final class MyAnnotationBinder {
         int idPropertyCounter = 0;
         PropertyData propertyAnnotatedElement = new PropertyInferredData(declaringClass, property, propertyAccessor, mappings.getReflectionManager());
 
-		/*
+        /*
          * put element annotated by @Id in front
-		 * since it has to be parsed before any association by Hibernate
-		 */
+         * since it has to be parsed before any association by Hibernate
+         */
         final XAnnotatedElement element = propertyAnnotatedElement.getProperty();
         if (element.isAnnotationPresent(Id.class) || element.isAnnotationPresent(EmbeddedId.class)) {
             annElts.add(0, propertyAnnotatedElement);
@@ -1510,9 +1510,9 @@ public final class MyAnnotationBinder {
         CommentBinder.bindColumnComment(property, columns);
     }
 
-	/*
+    /*
      * Process annotation of a particular property
-	 */
+     */
 
     private static void setVersionInformation(XProperty property, PropertyBinder propertyBinder) {
         propertyBinder.getSimpleValueBinder().setVersion(true);
@@ -1757,9 +1757,9 @@ public final class MyAnnotationBinder {
 
     private static void bindIdClass(String generatorType, String generatorName, PropertyData inferredData, PropertyData baseInferredData, Ejb3Column[] columns, PropertyHolder propertyHolder, boolean isComposite, AccessType propertyAccessor, EntityBinder entityBinder, boolean isEmbedded, boolean isIdentifierMapper, Mappings mappings, Map<XClass, InheritanceState> inheritanceStatePerClass) {
 
-		/*
-		 * Fill simple value and property since and Id is a property
-		 */
+        /*
+         * Fill simple value and property since and Id is a property
+         */
         PersistentClass persistentClass = propertyHolder.getPersistentClass();
         if (!(persistentClass instanceof RootClass)) {
             throw new AnnotationException("Unable to define/override @Id(s) on a subclass: " + propertyHolder.getEntityName());

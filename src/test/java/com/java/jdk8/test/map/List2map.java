@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
  */
 public class List2map {
     public static void main(String[] args) {
-        User u1=new User(1l,"zhangsan");
+        User u1 = new User(1l, "zhangsan");
 
-        User u2=new User(2l,"lisi");
+        User u2 = new User(2l, "lisi");
 
-        List<User> list=new ArrayList<>();
+        List<User> list = new ArrayList<>();
         list.add(u1);
         list.add(u2);
 

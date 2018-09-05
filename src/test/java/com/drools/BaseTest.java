@@ -11,26 +11,21 @@ import org.kie.internal.builder.KnowledgeBuilderErrors;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.io.ResourceFactory;
 
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.List;
-import java.util.Map;
+public class BaseTest {
 
-public class BaseTest  {
-
-    public KieSession getKieSession(String fileName){
+    public KieSession getKieSession(String fileName) {
         //从classPath加载
 
 
-        Resource resource = ResourceFactory.newClassPathResource("rule/"+fileName+".drl",this.getClass());
+        Resource resource = ResourceFactory.newClassPathResource("rule/" + fileName + ".drl", this.getClass());
         //从文件加载
-       // Resource resource = ResourceFactory.newFileResource()
+        // Resource resource = ResourceFactory.newFileResource()
         //从字符串加载
         // ResourceFactory.newReaderResource
         //加载远程rule
-      //ResourceFactory.newUrlResource("http://localhost:8080/test/Sample.drl")
+        //ResourceFactory.newUrlResource("http://localhost:8080/test/Sample.drl")
         KnowledgeBuilder knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-      //  knowledgeBuilder.add(ResourceFactory.newUrlResource("http://localhost:8080/test/Sample.drl"), ResourceType.DRL);
+        //  knowledgeBuilder.add(ResourceFactory.newUrlResource("http://localhost:8080/test/Sample.drl"), ResourceType.DRL);
 
         knowledgeBuilder.add(resource, ResourceType.DRL);
 

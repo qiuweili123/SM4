@@ -7,6 +7,6 @@ import java.util.Map;
  */
 public class E extends C<Map> {
     public E(Map entity) {
-       // super(entity);
+        // super(entity);
     }
 }

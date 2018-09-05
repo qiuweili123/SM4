@@ -15,7 +15,7 @@ public class TestRawTypes {
         Box5 rawBox = new Box5();
         rawBox.set(Integer.valueOf(9000));
 
-        System.out.println("euqule=="+(box==rawBox));
+        System.out.println("euqule==" + (box == rawBox));
         // No warning
         rawBox = box;
         System.out.printf("Integer Value :%d\n", rawBox.getData());

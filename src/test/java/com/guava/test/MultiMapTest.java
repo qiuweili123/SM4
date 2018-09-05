@@ -43,23 +43,22 @@ public class MultiMapTest {
         System.out.println("scoreMultimap:" + scoreMultimap.size());
         System.out.println("scoreMultimap:" + scoreMultimap.keys());
 
-        ImmutableMap<String,Integer> oneMap=ImmutableMap.of("key1",1,"key2",2);
-        ImmutableMap<String,Integer> twoMap=ImmutableMap.of("key11",11,"key2",2);
-        MapDifference<String,Integer> diffHadle=Maps.difference(oneMap,twoMap);
-        Map<String,Integer> commonMap=diffHadle.entriesInCommon();//{"key2",2},若无共同Entry，则返回长度为0的Map
+        ImmutableMap<String, Integer> oneMap = ImmutableMap.of("key1", 1, "key2", 2);
+        ImmutableMap<String, Integer> twoMap = ImmutableMap.of("key11", 11, "key2", 2);
+        MapDifference<String, Integer> diffHadle = Maps.difference(oneMap, twoMap);
+        Map<String, Integer> commonMap = diffHadle.entriesInCommon();//{"key2",2},若无共同Entry，则返回长度为0的Map
 
         System.out.println(commonMap);
-        Map<String,Integer> diffOnLeft=diffHadle.entriesOnlyOnLeft();//返回左边的Map中不同或者特有的元素
-        Map<String,Integer> diffOnRight=diffHadle.entriesOnlyOnRight();//返回右边的Map中不同或者特有的元素
-        for(Map.Entry<String, Integer> entry:diffOnRight.entrySet()){
-            System.out.println("共同Map中key:"+entry.getKey()+"  value:"+entry.getValue());
+        Map<String, Integer> diffOnLeft = diffHadle.entriesOnlyOnLeft();//返回左边的Map中不同或者特有的元素
+        Map<String, Integer> diffOnRight = diffHadle.entriesOnlyOnRight();//返回右边的Map中不同或者特有的元素
+        for (Map.Entry<String, Integer> entry : diffOnRight.entrySet()) {
+            System.out.println("共同Map中key:" + entry.getKey() + "  value:" + entry.getValue());
         }
 
-        Multimap<String,String> map2= ArrayListMultimap.create();
-        map2.put("testKey","hello");
-        map2.put("testKey","hello");
-        System.out.println("##map=="+map2.get("testKey").size());
-
+        Multimap<String, String> map2 = ArrayListMultimap.create();
+        map2.put("testKey", "hello");
+        map2.put("testKey", "hello");
+        System.out.println("##map==" + map2.get("testKey").size());
 
 
     }

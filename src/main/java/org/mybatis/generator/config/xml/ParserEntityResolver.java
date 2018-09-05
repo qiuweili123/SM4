@@ -37,7 +37,7 @@ public class ParserEntityResolver implements EntityResolver {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String,
      * java.lang.String)
      */

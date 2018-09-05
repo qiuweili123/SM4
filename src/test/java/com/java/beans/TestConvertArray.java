@@ -15,16 +15,16 @@ public class TestConvertArray {
 
         Long aLong = new Long(str);
         BigDecimal decimal = new BigDecimal("1.0");
-        System.out.println(decimal+"##"+aLong+"##"+integer);
+        System.out.println(decimal + "##" + aLong + "##" + integer);
      /*   Object[] obj = new String[] {"t1","t2"};
         String[] str1   = (String[])obj;
         System.out.println(str1.length);*/
 
 
-        System.out.println("##"+NumberUtils.createInteger("1"));
+        System.out.println("##" + NumberUtils.createInteger("1"));
     }
 
     public static <T> T[] toConvert(Class<T> clazz, String... arr) {
-         return null;
+        return null;
     }
 }

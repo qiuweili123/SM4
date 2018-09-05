@@ -30,14 +30,14 @@ public class GenericSingleton {
         } else {
             /*
              * 第一种实现 synchronized (lock) { if (singleMap.containsKey(class1)) {
-			 * return (T) singleMap.get(class1); }
-			 */
+             * return (T) singleMap.get(class1); }
+             */
 
-			/*
+            /*
              * instance = (T) class1.newInstance(); if
-			 * (instance.setSingle(instance)) { singleMap.put(class1, instance);
-			 * } else { instance = (T) singleMap.get(class1); }
-			 */
+             * (instance.setSingle(instance)) { singleMap.put(class1, instance);
+             * } else { instance = (T) singleMap.get(class1); }
+             */
 
             instance = (T) singleMap.get(class1);
             if (instance == null) {

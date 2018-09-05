@@ -84,9 +84,11 @@ public class HttpClientAsyncFactory {
                         latch.countDown();
                         System.out.println(request.getRequestLine() + "->" + response.getStatusLine());
                     }
+
                     public void failed(final Exception e) {
                         latch.countDown();
                     }
+
                     public void cancelled() {
                         latch.countDown();
                     }

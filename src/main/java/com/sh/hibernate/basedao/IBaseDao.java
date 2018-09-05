@@ -15,8 +15,8 @@ import java.util.Map;
 
 /**
  * @author 提供hibernate dao的所有操作,
- *         实现类由spring注入HibernateEntityDao和HibernateEntityExtendDao来实现
- *         最大限度的解耦hibernate持久层的操作
+ * 实现类由spring注入HibernateEntityDao和HibernateEntityExtendDao来实现
+ * 最大限度的解耦hibernate持久层的操作
  */
 public interface IBaseDao<T> {
     /**

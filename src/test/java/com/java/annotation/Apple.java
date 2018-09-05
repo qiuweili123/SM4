@@ -18,7 +18,7 @@ import static com.java.annotation.FruitColor.Color;
  * @Description:TODO(这里用一句话描述这个类的作用)
  */
 @FruitColor(Color.RED)
-public class Apple  extends  Fruit{
+public class Apple extends Fruit {
     @FruitName("Apple")
     private String appleName;
 

@@ -18,8 +18,8 @@ public class TestLookupMethod {
 
     @Test
     public void testLookUp() {
-        for (int i = 0; i <3 ; i++) {
-            System.out.println(hpService+"###" + hpService.getHp());
+        for (int i = 0; i < 3; i++) {
+            System.out.println(hpService + "###" + hpService.getHp());
         }
 
 

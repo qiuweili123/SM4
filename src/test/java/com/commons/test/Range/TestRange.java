@@ -17,7 +17,6 @@ public class TestRange {
         Number number = 120.0;
 
 
-
-        System.out.println("number range is: " +   numberRange.containsNumber(number));
+        System.out.println("number range is: " + numberRange.containsNumber(number));
     }
 }

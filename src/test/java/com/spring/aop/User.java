@@ -32,7 +32,7 @@ public class User {
         return money;
     }
 
-    @Money(name="testttt")
+    @Money(name = "testttt")
     public void setMoney(Long money) {
         System.out.println("############ret==" + money);
         this.money = money;

@@ -12,7 +12,7 @@
 lookup-mentod中bean是BeanB的类型.也就是cglib构造的BeanB的动态子类的父类型...目的当然是父类的句柄可以引用子类:用这个父类型引用构造出来的动态子类. -->
 
 
-    <bean id="hpDao" class="com.spring.lookupMd.HpDaoImpl"  />
+    <bean id="hpDao" class="com.spring.lookupMd.HpDaoImpl"/>
     <bean id="aop" class="com.spring.aop.AopDataType"/>
 
     <bean id="hpService" class="com.spring.lookupMd.HpServiceImpl">

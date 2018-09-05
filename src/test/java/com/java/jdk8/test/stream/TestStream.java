@@ -15,7 +15,6 @@ import java.util.stream.Stream;
  * 2.当一个 Stream 是并行化的，就不需要再写多线程代码，所有对它的操作会自动并行进行的
  * 3.集合有固定大小，Stream 则不必limit(n) 和 findFirst() 这类的 short-circuiting 操作可以对无限的 Stream 进行运算并很快完成
  * forEach 不能修改自己包含的本地变量值，也不能用 break/return 之类的关键字提前结束循环
- *
  */
 
 /**

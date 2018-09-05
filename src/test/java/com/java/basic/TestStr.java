@@ -56,12 +56,12 @@ public class TestStr {
 
         System.out.println(str.replaceAll("[com/|/|@]", ""));
 
-        String folder=System.getProperty("java.io.tmpdir");
+        String folder = System.getProperty("java.io.tmpdir");
         System.out.println(folder);
 
-        String str1="1";
+        String str1 = "1";
 
-        String[] strs=StringUtils.split(str1,",");
+        String[] strs = StringUtils.split(str1, ",");
 
         System.out.println(strs.length);
     }

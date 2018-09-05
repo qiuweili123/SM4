@@ -5,7 +5,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -30,10 +29,11 @@ public class AopDataType {
     //可以直接获取注解中的元数据
     //此种写法必须是类级别，接口级别无法扫描到
     @Before("@annotation(money)")
-    public   void before(JoinPoint joinPoint,Money money){
-        System.out.println("##before money==="+money.name());
+    public void before(JoinPoint joinPoint, Money money) {
+        System.out.println("##before money===" + money.name());
 
     }
+
     // @Before("postCut()")
     public void around(JoinPoint joinPoint) throws Throwable {
 //获取属性
@@ -56,8 +56,8 @@ public class AopDataType {
     //@Around("postCut()")
 
     @Around("@annotation(money)")
-    public Object processed(ProceedingJoinPoint joinPoint,Money money) throws Throwable {
-        System.out.println("##@ComponentScan--"+money.name());
+    public Object processed(ProceedingJoinPoint joinPoint, Money money) throws Throwable {
+        System.out.println("##@ComponentScan--" + money.name());
         String methodName = joinPoint.getSignature().getName();
         StringBuilder stringBuilder = new StringBuilder(methodName);
         stringBuilder.delete(0, 3);//删除set、get

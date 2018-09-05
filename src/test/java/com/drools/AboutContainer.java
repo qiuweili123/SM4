@@ -9,21 +9,21 @@ import org.kie.api.runtime.StatelessKieSession;
 
 public class AboutContainer {
 
-public void testCreate(){
-    KieServices kieServices = KieServices.Factory.get();
+    public void testCreate() {
+        KieServices kieServices = KieServices.Factory.get();
 
-    kieServices.getRepository();
+        kieServices.getRepository();
 
-    kieServices.getKieClasspathContainer();
-    ReleaseId releaseId = kieServices.newReleaseId( "org.acme", "myartifact", "1.0-SNAPSHOT" );
-    KieContainer kContainer = kieServices.newKieContainer( releaseId );
-    KieScanner kScanner = kieServices.newKieScanner( kContainer );
+        kieServices.getKieClasspathContainer();
+        ReleaseId releaseId = kieServices.newReleaseId("org.acme", "myartifact", "1.0-SNAPSHOT");
+        KieContainer kContainer = kieServices.newKieContainer(releaseId);
+        KieScanner kScanner = kieServices.newKieScanner(kContainer);
 //
 // Start the KieScanner polling the Maven repository every 10 seconds
-    kScanner.start( 10000L );
+        kScanner.start(10000L);
 
-    KieBase kieBase = kContainer.getKieBase();
-    StatelessKieSession statelessKieSession = kieBase.newStatelessKieSession();
+        KieBase kieBase = kContainer.getKieBase();
+        StatelessKieSession statelessKieSession = kieBase.newStatelessKieSession();
 
-}
+    }
 }

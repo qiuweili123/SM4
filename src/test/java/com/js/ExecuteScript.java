@@ -8,11 +8,12 @@ import java.io.FileReader;
 public class ExecuteScript {
     /**
      * 从给定的js文件中获取指定接口中的方法的实例
+     *
      * @param fileLoacation js文件路径
-     * @param clazz 接口的class
+     * @param clazz         接口的class
      * @return 返回一个指定接口方法的实例
      */
-    public <T> T getMethod (String fileLoacation,Class<T> clazz) {
+    public <T> T getMethod(String fileLoacation, Class<T> clazz) {
         ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine engine = manager.getEngineByName("js");
         try {

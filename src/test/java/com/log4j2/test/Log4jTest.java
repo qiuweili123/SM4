@@ -27,10 +27,10 @@ public class Log4jTest extends BaseLog {
     @Test
     public void testSomeMethod() {
         // System.setProperty("log4j.configurationFile", "conf/log4j2.xml");
-    /*
-     * System.out.println("sdd"); getLogger().info("yyyddd试试");
-	 * getLogger().error("error");
-	 */
+        /*
+         * System.out.println("sdd"); getLogger().info("yyyddd试试");
+         * getLogger().error("error");
+         */
         // 文本信息输出
         getLogger().error("error1:{},error2:{}.", "111", "2222");
         // MDC.put("clientNumber", "456");

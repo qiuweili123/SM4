@@ -13,21 +13,21 @@ public class TestFinal {
         System.out.println(a.hashCode());
         //不变模式 强不变模式 没有数子类，所有实例全部引用一个地址
         ImmutableData data1 = new ImmutableData(5);
-    /*
+        /*
 
-	 * 该类是共享资源类，需要状态永久不变
+         * 该类是共享资源类，需要状态永久不变
 
-	 * 一旦一个属性声明成final，就是Myeclipse的自动生成getter setter方法也会自动忽略到setter方法的
+         * 一旦一个属性声明成final，就是Myeclipse的自动生成getter setter方法也会自动忽略到setter方法的
 
-	 * 这个类的所有设计都以始终不变为目的，所有，ImmutableData中的所有方法也不用加上synchinored关键字，这样
+         * 这个类的所有设计都以始终不变为目的，所有，ImmutableData中的所有方法也不用加上synchinored关键字，这样
 
-	 * 可以提高程序的性能
+         * 可以提高程序的性能
 
-	 */
+         */
         System.out.println(data1.hashCode() + "sd" + new ImmutableData(6).hashCode());
 
         //tmp
-        List list =new ArrayList(5);
+        List list = new ArrayList(5);
         System.out.println(list.size());
     }
 }

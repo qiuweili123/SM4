@@ -9,7 +9,7 @@ public class User {
     private String name;
     private Integer age;
     private Date birthday;
- private  Address address;
+    private Address address;
 
     public String getName() {
         return name;

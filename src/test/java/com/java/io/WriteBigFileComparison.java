@@ -19,15 +19,15 @@ import java.security.PrivilegedAction;
  * NIO写大文件比较
  *
  * @author Will
- *         写2G文件，分批次写入，每批次写入128MB；
- *         ByteBuffer.allocate(capability)还是使用ByteBuffer.allocteDirect(capability)来分配缓存？
- *         第一种方式是分配JVM堆内存，属于GC管辖范围，由于需要拷贝所以速度相对较慢；
- *         第二种方式是分配OS本地内存，不属于GC管辖范围，由于不需要内存拷贝所以速度相对较快。
- *         <p>
- *         显然writeWithMappedByteBuffer方式性能最好，且在硬件配置较高情况下优势越加明显
- *         在硬件配置较低情况下，writeWithTransferTo比writeWithFileChannel性能稍好
- *         在硬件配置较高情况下，writeWithTransferTo和writeWithFileChannel的性能基本持平
- *         此外，注意writeWithMappedByteBuffer方式除了占用JVM堆内存外，还要占用额外的native内存（Direct Byte Buffer内存）
+ * 写2G文件，分批次写入，每批次写入128MB；
+ * ByteBuffer.allocate(capability)还是使用ByteBuffer.allocteDirect(capability)来分配缓存？
+ * 第一种方式是分配JVM堆内存，属于GC管辖范围，由于需要拷贝所以速度相对较慢；
+ * 第二种方式是分配OS本地内存，不属于GC管辖范围，由于不需要内存拷贝所以速度相对较快。
+ * <p>
+ * 显然writeWithMappedByteBuffer方式性能最好，且在硬件配置较高情况下优势越加明显
+ * 在硬件配置较低情况下，writeWithTransferTo比writeWithFileChannel性能稍好
+ * 在硬件配置较高情况下，writeWithTransferTo和writeWithFileChannel的性能基本持平
+ * 此外，注意writeWithMappedByteBuffer方式除了占用JVM堆内存外，还要占用额外的native内存（Direct Byte Buffer内存）
  */
 public class WriteBigFileComparison {
 

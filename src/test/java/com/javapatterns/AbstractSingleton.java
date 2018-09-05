@@ -10,8 +10,8 @@ public abstract class AbstractSingleton<T> {
         if (ret == null) {
             /*
              * try { Thread.sleep(300); } catch (InterruptedException e) { //
-			 * TODO Auto-generated catch block e.printStackTrace(); }
-			 */
+             * TODO Auto-generated catch block e.printStackTrace(); }
+             */
             // 第一种方式
 
             T obj = newObj();
@@ -27,8 +27,8 @@ public abstract class AbstractSingleton<T> {
             // 第二种实现方式
             /*
              * synchronized (this) { if (ref.get() == null) { ret = newObj();
-			 * ref.set(ret); } else { ret = ref.get(); } }
-			 */
+             * ref.set(ret); } else { ret = ref.get(); } }
+             */
 
         }
         return ret;

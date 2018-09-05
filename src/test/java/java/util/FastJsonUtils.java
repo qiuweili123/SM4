@@ -8,9 +8,6 @@ import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.HashMap;
-import java.util.Set;
-
 
 public class FastJsonUtils {
 
@@ -28,8 +25,6 @@ public class FastJsonUtils {
             //采用默认时间格式输出
             SerializerFeature.WriteDateUseDateFormat
     };
-
-
 
 
     /**
@@ -187,7 +182,7 @@ public class FastJsonUtils {
     public static String toSnakeCaseJSONString(Object object) {
         SerializeConfig config = new SerializeConfig();
 
-        config.propertyNamingStrategy =  PropertyNamingStrategy.SnakeCase;
+        config.propertyNamingStrategy = PropertyNamingStrategy.SnakeCase;
 
         return JSON.toJSONString(object, config, FEATURES);
     }
