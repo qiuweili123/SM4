@@ -2,6 +2,7 @@ package com.disruptor.test;
 
 import com.lmax.disruptor.BusySpinWaitStrategy;
 import com.lmax.disruptor.EventFactory;
+import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.EventHandlerGroup;
 import com.lmax.disruptor.dsl.ProducerType;
@@ -21,7 +22,7 @@ import java.util.concurrent.Executors;
 public class DisruptorTest3 {
     public static void main(String[] args) throws InterruptedException {
         long beginTime = System.currentTimeMillis();
-        BasicThreadFactory threadFactory = new BasicThreadFactory.Builder().build();
+        BasicThreadFactory threadFactory = new BasicThreadFactory.Builder().namingPattern("my-thread-%s").daemon(true).build();
 
         int bufferSize = 32;  // // RingBuffer 大小，必须是 2 的 N 次方；
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -33,9 +34,16 @@ public class DisruptorTest3 {
             }
         }, bufferSize, threadFactory, ProducerType.SINGLE, new BusySpinWaitStrategy());
 
+disruptor.setDefaultExceptionHandler(new DisruptorExceptionHandler("memo"));
+        System.out.println("##==" + threadFactory.getThreadCount());
         //使用disruptor创建消费者组C1,C2  handleEventsWith每个BatchEvenProcessor有一个Sequence，一个消息必然会被每一个BatchEvenProcessor消费。
-        EventHandlerGroup<TradeTransaction> handlerGroup = disruptor.handleEventsWith(new TradeTransactionVasConsumer(), new TradeTransactionInDBHandler(), new TradeTransactionInDBHandler());
+        EventHandler<TradeTransaction>  vas=new TradeTransactionVasConsumer();
+        EventHandler<TradeTransaction>  db1= new TradeTransactionInDBHandler();
+        EventHandler<TradeTransaction>  db2= new TradeTransactionInDBHandler();
+
+        EventHandlerGroup<TradeTransaction> handlerGroup = disruptor.handleEventsWith(vas,db1,db2);
         // disruptor.handleEventsWithWorkerPool(new TradeTransactionInDBHandler("worker-1"),new TradeTransactionInDBHandler("worker-2"));//一条消息只被一个handler处理。
+        disruptor.after(vas,db1,db2);
         TradeTransactionJMSNotifyHandler jmsConsumer = new TradeTransactionJMSNotifyHandler();
         //声明在C1,C2完事之后执行JMS消息发送操作 也就是流程走到C3  
         handlerGroup.then(jmsConsumer);

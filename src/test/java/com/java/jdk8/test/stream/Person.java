@@ -8,6 +8,9 @@ public class Person {
     private String cardId;
     private Integer age;
 
+    public Person() {
+    }
+
     public Person(String name, String cardId, Integer age) {
         this.name = name;
         this.cardId = cardId;
@@ -28,5 +31,13 @@ public class Person {
 
     public void setCardId(String cardId) {
         this.cardId = cardId;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 }

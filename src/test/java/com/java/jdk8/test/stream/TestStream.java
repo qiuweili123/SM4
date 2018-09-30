@@ -1,5 +1,7 @@
 package com.java.jdk8.test.stream;
 
+import com.google.common.collect.Lists;
+
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Function;
@@ -20,14 +22,16 @@ import java.util.stream.Stream;
 /**
  * 创建stream的几种方式：
  * 集合-->Stream：stream()
- 数组-->Stream：Stream.of(T t)或者Arrays.stream(T[] t)
- 任意元素-->Stream：Stream.of(T... values)
+ * 数组-->Stream：Stream.of(T t)或者Arrays.stream(T[] t)
+ * 任意元素-->Stream：Stream.of(T... values)
  */
 
 public class TestStream {
     public static void main(String[] args) {
         //m4();
+        m2();
         testMatch();
+        testSort();
     }
 
     /**
@@ -52,12 +56,16 @@ public class TestStream {
                 .sum();//用sum函数把所有的分数加起来，
         System.out.println("Total points: " + totalPointsOfOpenTasks);
         System.out.println("----------------Stream.generate-----------------");
-        // 通过实现 Supplier 接口，你可以自己来控制流的生成。这种情形通常用于随机数、常量的 Stream，或者需要前后元素间维持着某种状态信息的 Stream。把 Supplier 实例传递给 Stream.generate() 生成的 Stream，默认是串行（相对 parallel 而言）但无序的（相对 ordered 而言）。由于它是无限的，在管道中，必须利用 limit 之类的操作限制 Stream 大小
+        // 通过实现 Supplier 接口，你可以自己来控制流的生成。这种情形通常用于随机数、常量的 Stream，或者需要前后元素间维持着某种状态信息的 Stream。
+        // 把 Supplier 实例传递给 Stream.generate() 生成的 Stream，默认是串行（相对 parallel 而言）但无序的（相对 ordered 而言）。由于它是无限的，在管道中，必须利用 limit 之类的操作限制 Stream 大小
         Supplier<Person> supplier = () -> new Person("0", "StormTestUser0", 1);
-        //new PersonSupplier() 与 PersonSupplier：new 不一样效果
-        Stream.generate(new PersonSupplier()).limit(10).forEach(personSupplier -> System.out.println(personSupplier.getName()));
+        //new PersonSupplier() 与 PersonSupplier：new 不一样效果,PersonSupplier：new 操作的是每个实例的流
+        Stream.generate(new PersonSupplier()).limit(10).forEach(person -> System.out.println(person.getName()));
     }
 
+    /**
+     * 将数组转化为map
+     */
     public static void m3() {
         Stream<String> strStream = Stream.of("java", "c++", "c", "python");
         //Function.identity()-->返回strStream中的元素，toMap方法的我两个参数都是Function接口型的，所以第二个参数即使只放0，也不能直接写作0，可以使用如上的方式进行操作
@@ -120,14 +128,39 @@ public class TestStream {
         System.out.println(groupByPriceMap);
 
         // group by price, uses 'mapping' to convert List<item> to Set<string>
-        Map<BigDecimal, Set<String>> result =
-                items.stream().collect(
-                        Collectors.groupingBy(Item::getPrice,
-                                Collectors.mapping(Item::getName, Collectors.toSet())
-                        )
-                );
+
+        Map<BigDecimal, Set<String>> result = items.stream().collect(
+                Collectors.groupingBy(Item::getPrice,
+                        Collectors.mapping(Item::getName, Collectors.toSet())
+                )
+        );
 
         System.out.println(result);
+
+
+    }
+
+    public static void testSort() {
+        String[] arr = new String[]{"a001", "a003", "a002"};
+        Arrays.stream(arr).sorted().forEach(System.out::println);
+        List<Person> list=Lists.newArrayList();
+
+        Person p1=new Person();
+        p1.setName("zhangsan");
+        p1.setAge(10);
+
+        Person p2=new Person();
+        p2.setName("lisi");
+        p2.setAge(20);
+        list.add(p1);
+        list.add(p2);
+        System.out.println(list);
+
+        List<Person> personList = list.stream().sorted((p3,p4)->{
+            return p4.getAge().compareTo(p3.getAge());
+        }).collect(Collectors.toList());
+
+        System.out.println("order:"+personList);
 
 
     }

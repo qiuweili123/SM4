@@ -13,6 +13,7 @@ package com.java.basic;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Random;
+import java.util.StringJoiner;
 
 /**
  * @author liqiuwei
@@ -64,7 +65,20 @@ public class TestStr {
         String[] strs = StringUtils.split(str1, ",");
 
         System.out.println(strs.length);
+        testStringJoin();
     }
+//优雅连接字符串
+   public  static void testStringJoin(){
+       StringJoiner joiner=new StringJoiner(",","{","}");
+       joiner.add("1").add("2").add("3");
+       System.out.println("Joiner::"+joiner);
+       StringJoiner joiner2=new StringJoiner(",","【","】");
+       joiner2.add("a").add("b").add("c");
+       joiner.merge(joiner2);
+       System.out.println("joiner2::"+joiner);
+       String join = String.join("-", "1", "3");
 
+       System.out.println(join);
 
+   }
 }

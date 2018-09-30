@@ -20,14 +20,21 @@ public class TradeTransactionInDBHandler implements EventHandler<TradeTransactio
     @Override
     public void onEvent(TradeTransaction event, long sequence, boolean endOfBatch) throws Exception {
         event.setId("C2" + event.getId());
+
         System.out.println("C2##" + Thread.currentThread().getName() + "##sequence=" + sequence + "##" + "##event=" + event + "##this.workName=" + this.workName);
         this.onEvent(event);
+
         Thread.sleep(1000);
     }
 
     @Override
     public void onEvent(TradeTransaction event) throws Exception {
-        //这里做具体的消费逻辑   
+        //这里做具体的消费逻辑
+     //   try {
+            int b = 1 / 0;
+      //  }catch(Exception e){
+      //      System.out.println(" exception");
+       // }
         event.setId(UUID.randomUUID().toString());//简单生成下ID  
 
     }

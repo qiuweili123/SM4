@@ -1,0 +1,8 @@
+type Person1{
+   id: Long!
+   name: String!
+}
+
+  type Query{
+  getById(id:Int!): Person1
+}
