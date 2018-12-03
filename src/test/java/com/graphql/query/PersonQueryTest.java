@@ -24,11 +24,10 @@ public class PersonQueryTest {
 
       @Test
     public void testQuery() {
-        String query = "";
+        String query = "Query";
         Map<String, Object> variables = new HashMap<>();
 
-        
-
+        variables.put("id",1);
         ExecutionInput executionInput = ExecutionInput.newExecutionInput().query(query).variables(variables).build();
         ExecutionResult executionResult = graphQL.execute(executionInput);
         System.out.println((String) executionResult.getData());

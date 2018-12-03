@@ -3,6 +3,6 @@ type Person1{
    name: String!
 }
 
-  type Query{
+  extend type Query{
   getById(id:Int!): Person1
 }

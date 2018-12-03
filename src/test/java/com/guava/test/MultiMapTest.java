@@ -10,6 +10,7 @@
  */
 package com.guava.test;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.*;
 import org.junit.Test;
 
@@ -58,7 +59,8 @@ public class MultiMapTest {
         Multimap<String, String> map2 = ArrayListMultimap.create();
         map2.put("testKey", "hello");
         map2.put("testKey", "hello");
-        System.out.println("##map==" + map2.get("testKey").size());
+
+        System.out.println(    JSON.toJSONString(map2)+"##map==" + map2.get("testKey").size());
 
 
     }

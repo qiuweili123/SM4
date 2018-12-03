@@ -18,6 +18,7 @@ import java.util.Date;
 
 public class DateTimeTest {
     public static void main(String[] args) {
+        sysmils();
         getDateTime();
         plus();
         toLong();
@@ -25,11 +26,27 @@ public class DateTimeTest {
         getZeroTime();
         getPriod();
         getAge("2010-01-25");
+        format();
+    }
+
+    public static void sysmils(){
+ long start =System.currentTimeMillis();
+//计算得到1小时后时间.
+        //System.currentTimeMillis()相当于是毫秒为单位，但是，后头成了1000，就变成了以秒为单位。那么，3600秒=1小时，所以输出为当前时间的1小时后。
+       // 1539661260
+       // 1539659724818
+
+//计算1小时前的时间戳的两种方式，一种是直接减
+        //取余数一般来获取随机数
+ long start2=start-3600*1000;
+        System.out.println(start+"#"+start2+"##" );
+
     }
 
     public static void getDateTime() {
         DateTime currentTime = new DateTime();
         System.out.println(currentTime.toString("yyyy-MM-dd"));
+        System.out.println("cur::"+System.currentTimeMillis()+"##"+currentTime.toDate().getTime());
     }
 
     public static void plus() {
@@ -84,6 +101,14 @@ public class DateTimeTest {
         LocalDate now = LocalDate.now();
         Years age = Years.yearsBetween(birthday, now);
         System.out.println("now::"+now+" years:"+age.getYears());
+
+    }
+
+    public static  void format(){
+        String dateStr="2018-10-18 16:56:37";
+
+        DateTime parse = DateTime.parse(dateStr, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
+        System.out.println(parse);
 
     }
 }

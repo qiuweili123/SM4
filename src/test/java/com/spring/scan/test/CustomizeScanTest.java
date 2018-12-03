@@ -2,13 +2,10 @@ package com.spring.scan.test;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.beans.factory.support.*;
 import org.springframework.cglib.core.SpringNamingPolicy;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;
@@ -45,7 +42,10 @@ public class CustomizeScanTest {
         annotationConfigApplicationContext.refresh();
 
         ScanClass1 injectClass = annotationConfigApplicationContext.getBean(ScanClass1.class);
+        ScanClass2 njectClass = annotationConfigApplicationContext.getBean(ScanClass2.class);
+        ScanClass3 njectClass3 = annotationConfigApplicationContext.getBean(ScanClass3.class);
         injectClass.print("moon");
+
 
         /*
          * PathTest pathTest =
@@ -54,11 +54,11 @@ public class CustomizeScanTest {
          */
 
     }
+//1.使用BeanDefinitionRegistryPostProcessor拦截BeanDefinitionRegistry注册器
+   @Component
+    public static class BeanScannerConfigurer implements BeanDefinitionRegistryPostProcessor,ApplicationContextAware  {
 
-    @Component
-    public static class BeanScannerConfigurer implements BeanFactoryPostProcessor, ApplicationContextAware {
-
-        private ApplicationContext applicationContext;
+     private ApplicationContext applicationContext;
 
         @Override
         public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -67,11 +67,20 @@ public class CustomizeScanTest {
 
         @Override
         public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-            Scanner scanner = new Scanner((BeanDefinitionRegistry) beanFactory);
-            scanner.setResourceLoader(this.applicationContext);
+            Scanner scanner = new Scanner((BeanDefinitionRegistry)beanFactory);
             scanner.scan("com.spring.scan.test");
+            scanner.setResourceLoader(this.applicationContext);
+
+        //    System.out.println("after beanNames ::"+Arrays.toString(beanFactory.getBeanDefinitionNames()));
+
         }
+
+    @Override
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry beanDefinitionRegistry) throws BeansException {
+        System.out.println("bean count:"+beanDefinitionRegistry.getBeanDefinitionCount());
     }
+
+}
 
     public final static class Scanner extends ClassPathBeanDefinitionScanner {
 
@@ -88,23 +97,32 @@ public class CustomizeScanTest {
         @Override
         public Set<BeanDefinitionHolder> doScan(String... basePackages) {
             Set<BeanDefinitionHolder> beanDefinitions = super.doScan(basePackages);
+
+
             for (BeanDefinitionHolder holder : beanDefinitions) {
                 GenericBeanDefinition definition = (GenericBeanDefinition) holder.getBeanDefinition();
+
+              //  AbstractBeanDefinition definition = BeanDefinitionBuilder.genericBeanDefinition(FactoryBeanTest.class).getBeanDefinition();
                 System.out.println("calssname==" + definition.getBeanClassName());
+                ///BeanFactory.getBean的方法跟进去后有一个判断是不是FactroyBean类型的。如果是从FactroyBean.getObejct获取
+                //FactroyBean完成bean功能的扩展，如果没有FactroyBean，bean也能注册但是没有个性化的功能
+                //definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
                 definition.getPropertyValues().add("innerClassName", definition.getBeanClassName());
-                definition.setBeanClass(FactoryBeanTest.class);
+                //FactoryBeanTest 实现了FactoryBean
+               definition.setBeanClass(FactoryBeanTest.class);
             }
             return beanDefinitions;
         }
 
         @Override
         public boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
-            return super.isCandidateComponent(beanDefinition) && beanDefinition.getMetadata().hasAnnotation(CustomizeComponent.class.getName());
+            //super.isCandidateComponent(beanDefinition) && 此处判难断只能是类，不能是接口所以删除
+            return  beanDefinition.getMetadata().hasAnnotation(CustomizeComponent.class.getName());
         }
 
     }
 
-    public static class FactoryBeanTest<T> implements InitializingBean, FactoryBean<T> {
+    public static class FactoryBeanTest<T> implements  FactoryBean<T> {
 
         private String innerClassName;
 
@@ -142,10 +160,7 @@ public class CustomizeScanTest {
             return true;
         }
 
-        @Override
-        public void afterPropertiesSet() throws Exception {
 
-        }
     }
 
     public static class InterfaceProxy implements InvocationHandler {

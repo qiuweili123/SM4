@@ -6,7 +6,7 @@ import com.graphql.dao.PersonDao;
 
 import java.util.List;
 
-public class PersonQuery implements GraphQuery {
+public class PersonQuery implements Query {
 
     private PersonDao personDao;
 
