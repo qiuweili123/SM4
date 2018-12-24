@@ -20,13 +20,14 @@ import java.util.Random;
  * @Description:TODO(这里用一句话描述这个类的作用)
  */
 public class AboutRandom {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println(getRandNum(1, 999999));
         //  System.out.println( RandomStringUtils.random(6));
 
         System.out.println(RandomUtils.nextInt(100000, 999999));
         Random random = new Random();
         System.out.println(random.nextInt() + "##ramdom==" + (random.nextInt(10)));
+        getRandomBySys();
     }
 
     /**
@@ -39,6 +40,15 @@ public class AboutRandom {
     public static int getRandNum(int min, int max) {
         int randNum = min + (int) (Math.random() * ((max - min) + 1));
         return randNum;
+    }
+    public static  int getRandomBySys() throws InterruptedException {
+
+  for (int i=0;i<60;i++) {
+      long currentTimeMillis = System.currentTimeMillis();
+      System.out.println(currentTimeMillis*7%10+"=="+currentTimeMillis % 10);
+      //Thread.sleep(1000);
+  }
+        return 0;
     }
 
 }

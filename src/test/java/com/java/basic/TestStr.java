@@ -12,6 +12,7 @@ package com.java.basic;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.StringJoiner;
 
@@ -52,7 +53,7 @@ public class TestStr {
     str = str.replaceAll("e", "a");*/
         String str = "com/3/@6";
 
-        System.out.println("test");
+        System.out.println(Arrays.toString("".split(",")));
 
 
         System.out.println(str.replaceAll("[com/|/|@]", ""));
