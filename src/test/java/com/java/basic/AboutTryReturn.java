@@ -5,8 +5,8 @@ package com.java.basic;
  */
 public class AboutTryReturn {
     public static void main(String[] args) {
-
-        System.out.println(NoException());
+        int i = NoException();
+        System.out.println(i);
 
     }
 
@@ -15,12 +15,15 @@ public class AboutTryReturn {
         try {
             System.out.println("i in try block is" + i);
             i = i / 0;
-            // return --i;
+            //  return --i;
         } catch (Exception e) {
             System.out.println("i in catch - form try block is" + i);
-            throw new RuntimeException("dddd");
-        }
-        return 5;
+            i = 6;
 
+            //throw new RuntimeException("dddd"); 终止后边代码执行
+        }
+
+
+        return 5;
     }
 }
