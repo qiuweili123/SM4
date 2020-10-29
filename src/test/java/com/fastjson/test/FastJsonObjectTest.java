@@ -1,5 +1,6 @@
 package com.fastjson.test;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.HashMap;
@@ -20,6 +21,14 @@ public class FastJsonObjectTest {
         map.put("action", action);
         map.putAll(map1);
         System.out.println(JSONObject.toJSONString(map));
+
+        Map<String, Map<String, Integer>> mapMap = new HashMap<>();
+        Map<String, Integer> subMap1 = new HashMap<>();
+        subMap1.put("start", 1);
+        subMap1.put("end", 1);
+        mapMap.put("users", subMap1);
+        System.out.println("eee" + JSON.toJSONString(mapMap));
+
 
 
     }

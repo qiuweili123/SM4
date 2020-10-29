@@ -10,6 +10,9 @@
  */
 package com.java.basic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author liqiuwei
  * @create time:2015年11月23日下午3:46:52
@@ -41,6 +44,20 @@ public class AboutFor {
                 System.out.println("3----");
         }
 
+        List<String> lists = new ArrayList<>();
+        lists.add("aa");
+        lists.add(null);
+        lists.add("bbbb");
+
+        for (String str : lists) {
+            if (str == null) {
+                continue;
+            }
+            System.out.println("str==" + str);
+        }
     }
+
+
+
 
 }

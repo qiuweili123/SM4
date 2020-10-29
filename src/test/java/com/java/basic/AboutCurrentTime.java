@@ -24,5 +24,8 @@ public class AboutCurrentTime {
         //显示时间
         System.out.println("总毫秒为： " + totalMilliSeconds);
         System.out.println(currentHour + ":" + currentMinute + ":" + currentSecond + " GMT");
+        long curTime = totalMilliSeconds / (1000 * 60 * 60 * 24);
+        System.out.println(curTime);
+
     }
 }

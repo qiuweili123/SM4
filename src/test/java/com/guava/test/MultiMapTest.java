@@ -15,7 +15,9 @@ import com.google.common.collect.*;
 import org.junit.Test;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author ard-liqiuwei
@@ -33,7 +35,13 @@ public class MultiMapTest {
             scoreMultimap.put("peida", studentScore);
         }
         System.out.println("scoreMultimap:" + scoreMultimap.size());
-        System.out.println("scoreMultimap:" + scoreMultimap.values());
+        System.out.println("scoreMultimap values:" + scoreMultimap.values());
+
+        System.out.println("sdsd" + scoreMultimap.get("peida"));
+        Set<String> strings = scoreMultimap.keySet();
+        for (String k : strings) {
+            System.out.println("K :" + k + " V :" + scoreMultimap.get(k));
+        }
         Collection<StudentScore> studentScore = scoreMultimap.get("peida");
         studentScore.clear();
         StudentScore studentScoreNew = new StudentScore();
@@ -42,11 +50,14 @@ public class MultiMapTest {
         studentScore.add(studentScoreNew);
 
         System.out.println("scoreMultimap:" + scoreMultimap.size());
-        System.out.println("scoreMultimap:" + scoreMultimap.keys());
+        System.out.println("scoreMultimap keys:" + scoreMultimap.keys());
+        System.out.println("迭代");
+
 
         ImmutableMap<String, Integer> oneMap = ImmutableMap.of("key1", 1, "key2", 2);
         ImmutableMap<String, Integer> twoMap = ImmutableMap.of("key11", 11, "key2", 2);
         MapDifference<String, Integer> diffHadle = Maps.difference(oneMap, twoMap);
+        System.out.println("jsonMap=" + JSON.toJSONString(oneMap));
         Map<String, Integer> commonMap = diffHadle.entriesInCommon();//{"key2",2},若无共同Entry，则返回长度为0的Map
 
         System.out.println(commonMap);
@@ -62,6 +73,9 @@ public class MultiMapTest {
 
         System.out.println(    JSON.toJSONString(map2)+"##map==" + map2.get("testKey").size());
 
+        Map<String, Object> map = new HashMap<>();
+        map.put("s", 1);
+        System.out.println(map.get("s").equals(1));
 
     }
 }

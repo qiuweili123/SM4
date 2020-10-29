@@ -5,6 +5,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * LocalDate：只包含日期
@@ -27,10 +28,12 @@ public class DateTimeTest {
         getPriod();
         getAge("2010-01-25");
         format();
+        toDate();
     }
 
     public static void sysmils(){
  long start =System.currentTimeMillis();
+        System.out.println("cur:" + (start + 3600 * 1000));
 //计算得到1小时后时间.
         //System.currentTimeMillis()相当于是毫秒为单位，但是，后头成了1000，就变成了以秒为单位。那么，3600秒=1小时，所以输出为当前时间的1小时后。
        // 1539661260
@@ -74,7 +77,14 @@ public class DateTimeTest {
     //获取0点的时间
     public static void getZeroTime() {
         DateTime dt = new DateTime(new Date()).withMillisOfDay(0);
-        System.out.println(dt.toString("yyyyMMddHHmmSS"));
+
+
+        System.out.println(dt.toString("yyyyMMddHHmmSS") + "##curDate=" + dt.getMillis());
+
+        long current = System.currentTimeMillis();
+        long zero = current - (current + TimeZone.getDefault().getRawOffset()) % (1000 * 3600 * 24);
+        System.out.println("获取当前时间的0点时间戳新方式0000001##new==" + zero);
+
     }
     //获取时差
      public static void getPriod(){
@@ -110,5 +120,12 @@ public class DateTimeTest {
         DateTime parse = DateTime.parse(dateStr, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
         System.out.println(parse);
 
+    }
+
+    public static void toDate() {
+        long millis = System.currentTimeMillis();
+        DateTime dateTime = new DateTime(millis);
+        String dateFormat = dateTime.toString("yyyy-MM-dd HH:mm:ss");
+        System.out.println("dateFormat:" + dateFormat);
     }
 }

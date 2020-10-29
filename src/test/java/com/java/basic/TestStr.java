@@ -15,6 +15,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.StringJoiner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author liqiuwei
@@ -66,7 +68,9 @@ public class TestStr {
         String[] strs = StringUtils.split(str1, ",");
 
         System.out.println(strs.length);
-        testStringJoin();
+        //testStringJoin();
+        //testReplace();
+        testReplaceAll();
     }
 //优雅连接字符串
    public  static void testStringJoin(){
@@ -80,6 +84,33 @@ public class TestStr {
        String join = String.join("-", "1", "3");
 
        System.out.println(join);
+       System.out.println(String.format("hell %s", ""));
+       int step = 100000;
+       int count = step * 10;
+
+       for (int i = 0; i < count; i += step) {
+           int en = i + step;
+           System.out.println("start " + i + " end " + (i + step));
+           if (en == count) {
+               System.out.println("end==--" + en);
+           }
+       }
 
    }
+
+    public static void testReplace() {
+        String str = "@1 and @2  and @3 and @4 and @10 and   @10";
+        System.out.println(str.replace("@1", "aa"));
+        System.out.println(StringUtils.replaceOnce(str, "@1", "aa"));
+    }
+
+    /**
+     * 以上均是能够全部替换，不同于replace，replaceall可以支持正则
+     */
+    public static void testReplaceAll() {
+        String str = "@1 and @2  and @3 and @4 and @10 and @10";
+        //边界替换
+        System.out.println(str.replaceAll("@1\\b", "aa"));
+
+    }
 }

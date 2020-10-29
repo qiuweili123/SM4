@@ -38,6 +38,7 @@ public class ExampleFilterMap {
                 .filter(c -> c.getKey() == 2)
                 .collect(Collectors.toMap(map -> map.getKey(), map -> map.getValue()));
         System.out.println(collect);
+
     }
 
 }
