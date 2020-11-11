@@ -1,0 +1,24 @@
+##functions list
+## 至少匹配一次对象
+fn matchOnce(map) {
+    list=map.objs;
+    expres=map.expres;
+    ret=false;
+
+   for obj in list {
+    if(eval(expres)){
+     ret=true;
+     break;
+      }
+     }
+     return ret;
+}
+
+fn main(funName, paramMap){
+##还原为函数解析
+  f=eval(funName);
+  return f(paramMap);
+}
+
+return main(fun,paramMap);
+
