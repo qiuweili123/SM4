@@ -11,6 +11,8 @@
 package com.java.regx;
 
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @author lenovo
  * @create time:2016年7月1日上午9:25:13
@@ -40,6 +42,10 @@ public class RegxTest {
 //		 Pattern p = Pattern.compile(regex);  
 //		 p.matcher(regex);
 
+        testMatchSpecal();
+    }
+
+    public static void test1() {
         //查找以Java开头,任意结尾的字符串
         //  Pattern pattern = Pattern.compile("^com\\/+\\/controller\\/\\/(\\w+)Controller\\.class$");
         //java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("^com\\/+(.+)\\/controller\\/*.*\\/(\\w+)Controller\\.class$");
@@ -51,8 +57,36 @@ public class RegxTest {
         boolean b = matcher.matches();
         //当条件满足时，将返回true，否则返回false
         System.out.println(b);
-
     }
 
+    public static void testReplace() {
+        String str = "@1 and @2  and @3 and @4 and @10 and   @10";
+        System.out.println(str.replace("@1", "aa"));
+        System.out.println(StringUtils.replaceOnce(str, "@1", "aa"));
+    }
+
+    /**
+     * 以上均是能够全部替换，不同于replace，replaceall可以支持正则
+     */
+    public static void testReplaceAll() {
+        String str = "@1 and @2  and @3 and @4 and @10 and @10";
+        //边界替换
+        System.out.println(str.replaceAll("@1\\b", "aa"));
+    }
+
+
+    /**
+     * 正则包含一个具体的词
+     */
+    public static void testMatchSpecal() {
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("sink.*hive.*");
+        //Matcher matcher = pattern.matcher("com/s/controller/a/aController.class");
+        String str = "sink.redis-hivedd";
+        java.util.regex.Matcher matcher = pattern.matcher(str);
+
+        boolean b = matcher.matches();
+        //当条件满足时，将返回true，否则返回false
+        System.out.println(b);
+    }
 
 }

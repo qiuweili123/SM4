@@ -14,6 +14,22 @@ fn matchOnce(map) {
      return ret;
 }
 
+fn convertParam(map){
+let paramMap=map.paramMap;
+let  list=seq.list();
+let activityList=map.activityList;
+
+println("paramMap:"+paramMap);
+println("activityList:"+activityList);
+
+map(activityList,lambda(activity) -> {
+    for x in activity {seq.add(paramMap.extInfo,x)}
+    seq.add(list,paramMap);
+}
+end
+);
+}
+
 fn main(funName, paramMap){
 ##还原为函数解析
   f=eval(funName);
